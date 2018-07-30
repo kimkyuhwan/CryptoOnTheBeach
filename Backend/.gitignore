@@ -25,8 +25,6 @@ node_modules
 
 # Debug log from npm
 npm-debug.log
-truffle.js
-truffle-config.js
 # local env variables
 .env
 
@@ -36,7 +34,9 @@ migrations/
 test/
 
 # lol macs
-.DS_Store/
+.DS_Store
 
 # truffle
 .node-xmlhttprequest-*
+truffle.js
+truffle-config.js
