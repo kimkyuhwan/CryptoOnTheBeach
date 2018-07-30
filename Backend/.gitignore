@@ -25,12 +25,15 @@ node_modules
 
 # Debug log from npm
 npm-debug.log
-
+truffle.js
+truffle-config.js
 # local env variables
 .env
 
 # truffle build directory
 build/
+migrations/
+test/
 
 # lol macs
 .DS_Store/
