@@ -3,10 +3,8 @@ var express = require('express'),
   bodyParser = require('body-parser'),
   PORT = process.env.PORT || 9000,
   apiRoutes = express.Router(),
-  auth = require('./routes/auth');
-  item = require('./routes/item');
-  contract = require('./routes/contract');
-  validateController = require('./controller/validate.controller')
+  blockchainAPI = require('./routes/blockchain_api');
+  apiController = require('./controller/blockchain_api');
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -25,13 +23,9 @@ app.all('/*', function (req, res, next) {
 });
 
 
-app.use('/auth', auth);
-app.all('/api/*', validateController.validateToken);
-app.use('/api/item', item);
-// app.all('/api/contract/*', validateController.validateKeystore);
-app.use('/api/contract', contract);
+app.use('/blockchain-api', blockchainAPI);
 
 app.listen(PORT, function () {
-  console.log('server is started');
+  console.log('server is now started');
   console.log('port:' + PORT);
 })
