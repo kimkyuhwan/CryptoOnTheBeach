@@ -6,10 +6,11 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
+        android:name=".MApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/poul_market_icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/poul_market_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activity.LauncherActivity">
@@ -22,7 +23,8 @@
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.SignInActivity" />
         <activity android:name=".activity.SignUpActivity" />
-        <activity android:name=".activity.ItemDetailActivity"></activity>
+        <activity android:name=".activity.ItemDetailActivity" />
+        <activity android:name=".activity.AddItemActivity"></activity>
     </application>
 
 </manifest>

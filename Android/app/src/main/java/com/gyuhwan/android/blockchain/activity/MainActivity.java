@@ -1,24 +1,25 @@
 package com.gyuhwan.android.blockchain.activity;
 
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.gyuhwan.android.blockchain.MApplication;
 import com.gyuhwan.android.blockchain.R;
+import com.gyuhwan.android.blockchain.dataSchema.EthereumAccount;
+import com.gyuhwan.android.blockchain.dataSchema.Keystore;
 import com.gyuhwan.android.blockchain.fragment.CategoryFragment;
 import com.gyuhwan.android.blockchain.fragment.HomeFragment;
 import com.gyuhwan.android.blockchain.fragment.MyPageFragment;
+import com.gyuhwan.android.blockchain.util.SharedPreferenceBase;
 
 import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -28,20 +29,16 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    @BindView(R.id.fragment_container)
-    FrameLayout fragmentContainer;
-    @BindView(R.id.btnHome)
-    Button btnHome;
-    @BindView(R.id.btnCategory)
-    Button btnCategory;
-    @BindView(R.id.btnMyPage)
-    Button btnMyPage;
-
     String currentFragmentName;
 
     HomeFragment homeFragment;
     CategoryFragment categoryFragment;
     MyPageFragment myPageFragment;
+    @BindView(R.id.fragment_container)
+    FrameLayout fragmentContainer;
+    @BindView(R.id.mainTab)
+    TabLayout mainTab;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +48,44 @@ public class MainActivity extends AppCompatActivity {
         homeFragment = new HomeFragment();
         categoryFragment = new CategoryFragment();
         myPageFragment = new MyPageFragment();
+        setTabLayout();
         if (savedInstanceState == null) {
             onFragmentChanage("home");
         }
+    }
+
+    void setTabLayout() {
+        mainTab.addTab(mainTab.newTab().setText("HOME"));
+        mainTab.addTab(mainTab.newTab().setText("CATEGORY"));
+        mainTab.addTab(mainTab.newTab().setText("MY"));
+        mainTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int idx = tab.getPosition();
+                switch (idx) {
+                    case 0:
+                        onFragmentChanage("home");
+                        break;
+                    case 1:
+                        onFragmentChanage("category");
+                        break;
+                    case 2:
+                        onFragmentChanage("mypage");
+                        getEthereumAccount();
+                        break;
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
     void onFragmentChanage(String fragmentName) {
@@ -67,30 +99,59 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myPageFragment).commit();
         }
     }
-
+/*
     @OnClick({R.id.btnHome, R.id.btnCategory, R.id.btnMyPage})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btnHome:
-                onFragmentChanage("home");
                 break;
             case R.id.btnCategory:
                 onFragmentChanage("category");
                 addUser();
                 break;
             case R.id.btnMyPage:
-                onFragmentChanage("mypage");
+
+                //getCategory("Samsung");
                 break;
         }
-    }
-    public void addUser() {
+    }*/
+
+
+    public void getEthereumAccount() {
         RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
-                .addFormDataPart("username", "hello")
                 .addFormDataPart("password", "world")
-                .addFormDataPart("displayName","규환")
                 .build();
-        MApplication.getInstance().getApiService().addUser(requestBody)
+        Log.w("DEBUGYU", requestBody.toString());
+        MApplication.getInstance().getChainService().getEthereumAccount(requestBody)
+                .enqueue(new Callback<EthereumAccount>() {
+                    @Override
+                    public void onResponse(Call<EthereumAccount> call, Response<EthereumAccount> response) {
+                        if (response.isSuccessful()) {
+                            EthereumAccount temp = response.body();
+                            Keystore beSavedKeyStore = temp.getData().getKeystore();
+                            Log.d("DEBUGYU", beSavedKeyStore.getAddress());
+                            SharedPreferenceBase.putKeyStoreSharedPreference("keystore", beSavedKeyStore);
+
+                        } else {
+
+                            Log.w("DEBUGYU", "IN : " + response.message());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<EthereumAccount> call, Throwable t) {
+                        Log.w("DEBUGYU", "FAIL : " + t.getMessage());
+                        Log.w("DEBUGYU", "URL : " + call.request().url().toString());
+
+                        Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+    }
+
+    public void getCategory(String value) {
+        MApplication.getInstance().getApiService().searchByCategory(value)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -109,7 +170,6 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
-
     }
 }
 

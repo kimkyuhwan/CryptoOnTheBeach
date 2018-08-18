@@ -11,7 +11,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="550dp"
+        android:layout_height="560dp"
         android:id="@+id/fragment_container"
         />
 
@@ -21,28 +21,13 @@
         android:orientation="horizontal"
         >
 
-        <Button
-            android:id="@+id/btnHome"
-            android:layout_width="wrap_content"
+        <android.support.design.widget.TabLayout
+            android:id="@+id/mainTab"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="home"
-            android:layout_weight="1"
+            android:theme="@style/Base.Widget.Design.TabLayout"
+            app:tabIndicatorColor="@android:color/white"
             />
-        <Button
-            android:id="@+id/btnCategory"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="category"
-            android:layout_weight="1"
-            />
-        <Button
-            android:id="@+id/btnMyPage"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="my page"
-            android:layout_weight="1"
-            />
-
 
     </LinearLayout>
 

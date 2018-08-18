@@ -1,9 +1,13 @@
 package com.gyuhwan.android.blockchain;
 
 import android.app.Application;
+import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.gyuhwan.android.blockchain.network.ApiService;
 import com.gyuhwan.android.blockchain.network.ChainService;
+import com.gyuhwan.android.blockchain.util.SharedPreferenceBase;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -39,11 +43,14 @@ public class MApplication extends Application {
 
     public ChainService getChainService(){
         if(chainService == null){
+            Gson gson=new GsonBuilder()
+                    .setLenient()
+                    .create();
             OkHttpClient.Builder oktHttpClient = new OkHttpClient.Builder();
             retrofit = new Retrofit.Builder().
                     baseUrl(ChainService.URL).
                     client(oktHttpClient.build()).
-                    addConverterFactory(GsonConverterFactory.create()).
+                    addConverterFactory(GsonConverterFactory.create(gson)).
                     build();
             chainService = retrofit.create(ChainService.class);
         }
@@ -55,6 +62,7 @@ public class MApplication extends Application {
     public void onCreate() {
         super.onCreate();
         appInstance = this;
+        Log.w("DEBUGYU", SharedPreferenceBase.getKeyStoreSharedPreference("keystore").getAddress());
     }
 
 }

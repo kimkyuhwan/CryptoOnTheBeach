@@ -23,11 +23,21 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Completable;
+import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 
 public class LauncherActivity extends AppCompatActivity {
 
     private static final int MY_PERMISSION_READ_STATE = 0x01;
+    Observable startObs=Observable.just("").
+            delay(2000,TimeUnit.MILLISECONDS).
+            doOnNext(item-> {
+                        startActivity(new Intent(getApplicationContext(), SignInActivity.class));
+                        finish();
+                    }
+            );
+    Disposable disposable;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,19 +46,6 @@ public class LauncherActivity extends AppCompatActivity {
 
     }
 
-    private String GetDevicesUUID(Context mContext) {
-        final TelephonyManager tm = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
-        final String tmDevice, tmSerial, androidId;
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-           return "No Permission";
-        }
-        tmDevice = "" + tm.getDeviceId();
-        tmSerial = "" + tm.getSimSerialNumber();
-        androidId = "" + android.provider.Settings.Secure.getString(getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
-        UUID deviceUuid = new UUID(androidId.hashCode(), ((long)tmDevice.hashCode() << 32) | tmSerial.hashCode());
-        String deviceId = deviceUuid.toString();
-        return deviceId;
-    }
 
     private void CheckPermission(){
         if(ContextCompat.checkSelfPermission(this,Manifest.permission.READ_PHONE_STATE)!= PackageManager.PERMISSION_GRANTED){
@@ -79,16 +76,8 @@ public class LauncherActivity extends AppCompatActivity {
             }
         }
         else{
-            Log.d("DEBUGYU",GetDevicesUUID(this));
-            Completable.timer(2000, TimeUnit.MILLISECONDS)
-                    .subscribe(new Action() {
-                                   @Override
-                                   public void run() throws Exception {
-                                       startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                                       finish();
-                                   }
-                               }
-                    );
+            disposable=startObs.subscribe();
+
         }
     }
 
@@ -102,17 +91,17 @@ public class LauncherActivity extends AppCompatActivity {
                         return;
                     }
                 }
-                Log.d("DEBUGYU",GetDevicesUUID(this));
-                Completable.timer(2000, TimeUnit.MILLISECONDS)
-                        .subscribe(new Action() {
-                                       @Override
-                                       public void run() throws Exception {
-                                           startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                                           finish();
-                                       }
-                                   }
-                        );
+                disposable=startObs.subscribe();
                 break;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("DEBUGYU","isDestory");
+        if(!disposable.isDisposed()) {
+            disposable.dispose();
         }
     }
 }

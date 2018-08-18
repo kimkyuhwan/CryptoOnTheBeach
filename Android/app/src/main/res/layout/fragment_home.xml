@@ -4,51 +4,62 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <TextView
-        android:background="#7388"
+        android:background="#1fa3ff"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="47dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         />
     <EditText
+
         android:id="@+id/searchBar"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="3dp"
+        android:layout_marginLeft="11dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="8dp"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="31dp"
         android:paddingLeft="10dp"
-        android:text="text"
+        android:textSize="16dp"
         app:layout_constraintLeft_toRightOf="parent"
         app:layout_constraintRight_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:inputType="text"
         android:imeOptions="actionSearch"
-        android:background="#fff"
+        android:background="#ccffffff"
+        />
+    <ImageButton
+        android:id="@+id/searchBtn"
+        android:layout_width="13dp"
+        android:layout_height="13dp"
+        android:background="@drawable/search_btn"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="17dp"
+        android:layout_marginRight="21dp"
+
         />
 
     <android.support.v7.widget.RecyclerView
         android:background="#f00"
         android:id="@+id/homeItemList"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="179dp"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@+id/searchBar"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="42dp"
         >
     </android.support.v7.widget.RecyclerView>
 
-    <android.support.v4.view.ViewPager
+    <ImageView
         android:background="#0f0"
         android:id="@+id/imageViewPager"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="28dp"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="108dp"
         app:layout_constraintTop_toBottomOf="@+id/homeItemList"
         app:layout_constraintLeft_toLeftOf="parent"
-        >
-    </android.support.v4.view.ViewPager>
+        />
 
     <TextView
         android:id="@+id/textSeller"
