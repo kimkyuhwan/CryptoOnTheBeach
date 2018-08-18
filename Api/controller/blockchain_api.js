@@ -20,7 +20,6 @@ exports.getEthereumAccount = function (req, res) {
 	if (password) {
 		accountInfo = web3.eth.accounts.create(password);
 		keystore = web3.eth.accounts.encrypt(accountInfo.privateKey, password);
-		console.log(keystore);
 		msg.sendMsg(res, 200, {
 			data: {
 				keystore: keystore
@@ -65,13 +64,10 @@ exports.registerItem = function (account, req, res, callback) {
 		async.waterfall([
 			function (callback) {
 				web3.eth.getTransactionCount(account.address, function (error, nonce) {
-					console.log('error', error);
-					console.log('nonce', nonce);
 					if (error) {
 						callback(error);
 						return;
 					}
-					console.log('nonce', nonce);
 					rawTx = {
 						nonce: nonce,
 						gasLimit: config.gasLimit,
@@ -87,18 +83,15 @@ exports.registerItem = function (account, req, res, callback) {
 				});
 			},
 			function (serializedTx, callback) {
+
 				web3.eth.sendSignedTransaction('0x' + serializedTx.toString('hex'))
 				.on('error', function (error) {
 					callback(error);
-					// should delete item registered in database
-				})
-				.on('transactionHash', function (hash) {
-					console.log(hash);
-					msg.sendMsg(res, 200);
 				})
 				.on('receipt', function (data) {
-					console.log(data);
-					// blockchain save complete
+					msg.sendMsg(res, 200, {
+						data: data
+					});
 				});
 			}
 			], function (error) {
@@ -144,14 +137,13 @@ exports.barterItem = function (account, req, res, callback) {
 				});
 			}, function (serializedTx) {
 				web3.eth.sendSignedTransaction('0x' + serializedTx.toString('hex'))
-				.on('transactionHash', function (hash) {
+				.on('receipt', function (data) {
 					msg.sendMsg(res, 200);
 				})
-				.on('receipt', function (data) {
-
-				})
 				.on('error', function (error) {
-
+					msg.sendMsg(res, 400, {
+						error: error
+					});
 				});
 			}
 		], function (error) {
@@ -166,7 +158,7 @@ exports.barterItem = function (account, req, res, callback) {
 	}
 };
 
-exports.traceProduct = function (req, res) {
+exports.traceProduct = function (req, res, callback) {
 	var sn = req.query.sn;
 
 	if (sn) {
@@ -185,7 +177,6 @@ exports.traceProduct = function (req, res) {
 					error: error
 				});
 			} else {
-				console.log('events', events);
 				msg.sendMsg(res, 200, {
 					data: events
 				});
@@ -195,3 +186,67 @@ exports.traceProduct = function (req, res) {
 		msg.sendMsg(res, 400);
 	}
 };
+
+exports.getBlock = function (req, res) {
+	var blockHeightList = JSON.parse(req.query.blockHeightList),
+		functionList = [];
+
+	if (typeof(blockHeightList) === 'object') {
+		for (var blockHeight in blockHeightList) {
+			functionList.push(web3.eth.getBlock(blockHeight));
+		}
+
+		Promise.all(functionList).then(function (values) {
+			msg.sendMsg(res, 200, {
+				data: values
+			});
+		}).catch(function (error) {
+			console.log('get block error', error);
+			msg.sendMsg(res, 500, {
+				error: error
+			});
+		});
+		
+	} else {
+		msg.sendMsg(res, 400);
+	}
+
+};
+
+exports.getBalances = function (req, res) {
+	var address = req.query.address;
+
+	console.log(address);
+	if (address) {
+		Promise.all([
+			web3.eth.getBalance(address),
+			ducktoken.methods.balanceOf(address).call()])
+		.then(function (results) {
+			msg.sendMsg(res, 200, {
+				data: {
+					ethereum: results[0],
+					token: results[1]
+				}
+			});
+		}).catch(function (errors) {
+			console.log("errors", errors);
+			msg.sendMsg(res, 500, {
+				error: errors
+			});
+		});
+	} else {
+		msg.sendMsg(res, 400);
+	}
+};
+
+
+
+
+
+
+
+
+
+
+
+
