@@ -80,7 +80,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginLeft="57dp"
         android:layout_marginTop="286dp"
-        android:text="gmarble94@gmail.com"
+        android:text="123456"
         android:textSize="12dp"
         android:inputType="textPassword"
         android:textColor="#2699fb"

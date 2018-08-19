@@ -19,7 +19,7 @@ public class ItemThing {
     private String picDir;
     @SerializedName("sellerId")
     @Expose
-    private String sellerId;
+    private Integer sellerId;
     @SerializedName("buyerId")
     @Expose
     private Object buyerId;
@@ -29,9 +29,15 @@ public class ItemThing {
     @SerializedName("etherAddress")
     @Expose
     private Object etherAddress;
-    @SerializedName("state")
+    @SerializedName("status")
     @Expose
-    private Integer state;
+    private Integer status;
+    @SerializedName("price")
+    @Expose
+    private Integer price;
+    @SerializedName("sellerTier")
+    @Expose
+    private String sellerTier;
 
     public Integer getId() {
         return id;
@@ -65,11 +71,11 @@ public class ItemThing {
         this.picDir = picDir;
     }
 
-    public String getSellerId() {
+    public Integer getSellerId() {
         return sellerId;
     }
 
-    public void setSellerId(String sellerId) {
+    public void setSellerId(Integer sellerId) {
         this.sellerId = sellerId;
     }
 
@@ -97,12 +103,27 @@ public class ItemThing {
         this.etherAddress = etherAddress;
     }
 
-    public Integer getState() {
-        return state;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setState(Integer state) {
-        this.state = state;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+
+    public String getSellerTier() {
+        return sellerTier;
+    }
+
+    public void setSellerTier(String sellerTier) {
+        this.sellerTier = sellerTier;
+    }
 }

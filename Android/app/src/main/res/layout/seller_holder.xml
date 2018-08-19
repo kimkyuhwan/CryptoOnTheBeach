@@ -6,29 +6,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
-        android:id="@+id/item_image"
-        android:layout_width="144dp"
-        android:layout_height="108dp"
+        android:id="@+id/sellerTier"
+        android:background="@drawable/dia"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
     <TextView
-        android:id="@+id/item_name"
+        android:id="@+id/sellerName"
         android:layout_width="wrap_content"
-        android:layout_height="32dp"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
         android:text="item name"
-        android:gravity="center_vertical"
+        android:textColor="#1fa3ff"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/item_image"
+        app:layout_constraintTop_toBottomOf="@+id/sellerTier"
         />
-    <ImageView
-        android:id="@+id/item_tier"
-        android:layout_margin="3dp"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginLeft="40dp"
-        app:layout_constraintRight_toRightOf="@+id/item_image"
-        app:layout_constraintTop_toBottomOf="@+id/item_image"
-        />
-
 </android.support.constraint.ConstraintLayout>

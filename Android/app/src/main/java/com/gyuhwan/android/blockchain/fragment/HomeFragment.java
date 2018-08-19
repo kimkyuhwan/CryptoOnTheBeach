@@ -4,24 +4,40 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.gyuhwan.android.blockchain.MApplication;
 import com.gyuhwan.android.blockchain.R;
 import com.gyuhwan.android.blockchain.activity.AddItemActivity;
+import com.gyuhwan.android.blockchain.activity.MainActivity;
+import com.gyuhwan.android.blockchain.adapter.ItemAdapter;
+import com.gyuhwan.android.blockchain.adapter.bestSellerAdapter;
+import com.gyuhwan.android.blockchain.dataSchema.BestSeller;
+import com.gyuhwan.android.blockchain.dataSchema.ItemSearchResult;
+import com.gyuhwan.android.blockchain.dataSchema.ItemThing;
+import com.gyuhwan.android.blockchain.dataSchema.UserData;
+import com.gyuhwan.android.blockchain.util.SharedPreferenceBase;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
     @BindView(R.id.searchBar)
@@ -37,6 +53,12 @@ public class HomeFragment extends Fragment {
     @BindView(R.id.homeSellerList)
     RecyclerView homeSellerList;
     Unbinder unbinder;
+    @BindView(R.id.addItemBtn)
+    Button addItemBtn;
+
+    ItemAdapter adapter;
+    bestSellerAdapter bestSellerAdapter;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,11 +70,72 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-
         unbinder = ButterKnife.bind(this, rootView);
+        getRecentThing();
+        getBestSeller();
         return rootView;
     }
 
+    void setAdapter(List<ItemThing> result){
+        adapter=new ItemAdapter(getActivity() );
+        for(int i=0;i<result.size();i++){
+            ItemThing temp=result.get(i);
+            Log.w("DEBUGYU","ID : "+temp.getId());
+            adapter.addItem(temp);
+        }
+        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+        llm.setOrientation(LinearLayoutManager.HORIZONTAL);
+        homeItemList.setLayoutManager(llm);
+        homeItemList.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+    }
+
+    void setBestSellerAdapter(List<UserData> result){
+        bestSellerAdapter=new bestSellerAdapter(getActivity() );
+        for(int i=0;i<result.size();i++){
+            UserData temp=result.get(i);
+            Log.w("DEBUGYU","ID : "+temp.getId());
+            bestSellerAdapter.addItem(temp);
+        }
+        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+        llm.setOrientation(LinearLayoutManager.HORIZONTAL);
+        homeSellerList.setLayoutManager(llm);
+        homeSellerList.setAdapter(bestSellerAdapter);
+        bestSellerAdapter.notifyDataSetChanged();
+    }
+    void getRecentThing(){
+        MApplication.getInstance().getApiService().getRecentThing().enqueue(new Callback<ItemSearchResult>() {
+            @Override
+            public void onResponse(Call<ItemSearchResult> call, Response<ItemSearchResult> response) {
+                if(response.isSuccessful()){
+                    ItemSearchResult temp=response.body();
+                    setAdapter(temp.getResult());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ItemSearchResult> call, Throwable t) {
+
+            }
+        });
+    }
+
+    void getBestSeller(){
+        MApplication.getInstance().getApiService().getBestSeller().enqueue(new Callback<BestSeller>() {
+            @Override
+            public void onResponse(Call<BestSeller> call, Response<BestSeller> response) {
+                if(response.isSuccessful()){
+                    BestSeller temp=response.body();
+                    setBestSellerAdapter(temp.getResult());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BestSeller> call, Throwable t) {
+
+            }
+        });
+    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -64,16 +147,30 @@ public class HomeFragment extends Fragment {
         super.onDestroy();
     }
 
-    @OnClick({R.id.searchBtn, R.id.imageViewPager})
+    @OnClick({R.id.searchBtn, R.id.imageViewPager, R.id.addItemBtn})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.searchBtn:
+                ((MainActivity)getActivity()).searchByTitle(searchBar.getText().toString());
+                break;
+            case R.id.imageViewPager:
+                break;
+            case R.id.addItemBtn:
+                Intent it=new Intent(getActivity(), AddItemActivity.class);
+                startActivity(it);
+                break;
+        }
+    }
+
+  /*  @OnClick({R.id.searchBtn, R.id.imageViewPager})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.searchBtn:
                 break;
             case R.id.imageViewPager:
-                Intent it=new Intent(getActivity(), AddItemActivity.class);
-                startActivity(it);
+
 
                 break;
         }
-    }
+    }*/
 }

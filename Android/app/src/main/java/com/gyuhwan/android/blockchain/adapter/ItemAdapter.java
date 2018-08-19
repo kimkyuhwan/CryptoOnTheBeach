@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.gyuhwan.android.blockchain.R;
 import com.gyuhwan.android.blockchain.activity.ItemDetailActivity;
 import com.gyuhwan.android.blockchain.dataSchema.Item;
+import com.gyuhwan.android.blockchain.dataSchema.ItemThing;
 import com.gyuhwan.android.blockchain.viewHolder.ItemHolder;
 
 import java.util.ArrayList;
@@ -18,9 +19,17 @@ import java.util.ArrayList;
 public class ItemAdapter extends RecyclerView.Adapter<ItemHolder> {
 
     Context context;
-    ArrayList<Item> itemList;
+    ArrayList<ItemThing> itemList;
 
 
+    public ItemAdapter(Context context) {
+        this.context = context;
+        itemList=new ArrayList<ItemThing>() ;
+    }
+    public void clear(){
+        itemList.clear();
+        notifyDataSetChanged();
+    }
 
     @NonNull
     @Override
@@ -32,13 +41,19 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ItemHolder holder, int position) {
-        Item posItem = itemList.get(position);
-        holder.setData(posItem.getName(),posItem.getImageUrl(),posItem.getTier());
+        ItemThing posItem = itemList.get(position);
+        holder.setData(posItem.getTitle(),posItem.getPicDir(),posItem.getSellerTier());
         holder.imageView.setOnClickListener((View v) -> {
             Intent it=new Intent(context, ItemDetailActivity.class);
-            it.putExtra("item_id",posItem.getId());
+            it.putExtra("item_thing",posItem.getId());
             context.startActivity(it);
         });
+    }
+
+    public void addItem(ItemThing thing){
+        itemList.add(thing);
+        notifyDataSetChanged();
+
     }
 
     @Override

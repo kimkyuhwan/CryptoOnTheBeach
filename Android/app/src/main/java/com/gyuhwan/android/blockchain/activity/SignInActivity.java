@@ -16,6 +16,7 @@ import com.gyuhwan.android.blockchain.MApplication;
 import com.gyuhwan.android.blockchain.R;
 import com.gyuhwan.android.blockchain.dataSchema.Code;
 import com.gyuhwan.android.blockchain.dataSchema.User;
+import com.gyuhwan.android.blockchain.util.SharedPreferenceBase;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -95,7 +96,7 @@ public class SignInActivity extends AppCompatActivity {
                     public void onResponse(Call<User> call, Response<User> response) {
                         if(response.isSuccessful()){
                             String result=response.body().getCode();
-                            response.body().getUserdata();
+                            SharedPreferenceBase.putUserDataSharedPreference("user",response.body().getUserdata());
                             Log.w("DEBUGYU`","SUCCESS"+response.body().getCode());
                             if(result.equals("NOT_FOUND")){
                                 Toast.makeText(getApplicationContext(),"없는 이메일 주소입니다",Toast.LENGTH_LONG).show();

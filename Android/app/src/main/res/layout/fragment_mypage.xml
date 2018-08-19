@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <TextView
+        android:id="@+id/userId"
         android:text="GYU"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -17,7 +18,7 @@
     <TextView
         android:background="#F0EDED"
         android:layout_width="match_parent"
-        android:layout_height="172dp"
+        android:layout_height="86dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginTop="61dp"
@@ -36,6 +37,19 @@
         />
 
     <TextView
+        android:id="@+id/valueCoin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textColor="#959595"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="85dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+
+        />
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="ACCOUNT"
@@ -47,72 +61,20 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         />
+
     <TextView
+        android:id="@+id/valueAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SELLER LEVEL"
-        android:textSize="11sp"
+        android:text="0"
         android:textColor="#959595"
-        android:fontFamily="@font/yoongothic"
-        android:layout_marginTop="157dp"
-        android:layout_marginLeft="17dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="120dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="BUYER LEVEL"
-        android:textSize="11sp"
-        android:textColor="#959595"
-        android:fontFamily="@font/yoongothic"
-        android:layout_marginTop="192dp"
-        android:layout_marginLeft="17dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#1fa3ff"
+        app:layout_constraintRight_toRightOf="parent"
 
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginLeft="9dp"
-        android:layout_marginRight="9dp"
-        android:layout_marginTop="105dp"
         />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#1fa3ff"
 
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginLeft="9dp"
-        android:layout_marginRight="9dp"
-        android:layout_marginTop="140dp"
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#1fa3ff"
 
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginLeft="9dp"
-        android:layout_marginRight="9dp"
-        android:layout_marginTop="175dp"
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#1fa3ff"
 
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginLeft="9dp"
-        android:layout_marginRight="9dp"
-        android:layout_marginTop="210dp"
-        />
 </android.support.constraint.ConstraintLayout>

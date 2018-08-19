@@ -3,16 +3,22 @@ package com.gyuhwan.android.blockchain.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.gyuhwan.android.blockchain.MApplication;
 import com.gyuhwan.android.blockchain.R;
+import com.gyuhwan.android.blockchain.activity.MainActivity;
+import com.gyuhwan.android.blockchain.dataSchema.ItemSearchResult;
+import com.gyuhwan.android.blockchain.util.SharedPreferenceBase;
 
 import java.util.ArrayList;
 
@@ -20,6 +26,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CategoryFragment extends Fragment {
 
@@ -42,6 +51,8 @@ public class CategoryFragment extends Fragment {
     ListView categoryList;
     Unbinder unbinder;
 
+    int current_idx=0;
+
     ArrayAdapter<String> adapter;
 
 
@@ -51,7 +62,38 @@ public class CategoryFragment extends Fragment {
             list.add(categoryProduct[idx][i]);
         }
         adapter=new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,list);
+        categoryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                searchByCategory(i);
+            }
+        });
         categoryList.setAdapter(adapter);
+    }
+
+    public void searchByCategory(int pos){
+        MApplication.getInstance().getApiService().searchByCategory(categoryProduct[current_idx][pos]).
+                enqueue(new Callback<ItemSearchResult>() {
+                    @Override
+                    public void onResponse(Call<ItemSearchResult> call, Response<ItemSearchResult> response) {
+                        if(response.isSuccessful()){
+                            SharedPreferenceBase.putItemListSharedPreference("itemlist",response.body());
+                            Log.d("DEBUGYU","SUCCESS!!") ;
+                            ((MainActivity)getActivity()).onFragmentChanage("itemlist");
+                        }
+                        else{
+                            Log.d("DEBUGYU","DONE!!") ;
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ItemSearchResult> call, Throwable t) {
+                        Log.d("DEBUGYU","FAIL!!") ;
+                        Log.w("DEBUGYU","LOG : "+t.getLocalizedMessage());
+
+                    }
+                });
     }
 
 
@@ -68,6 +110,7 @@ public class CategoryFragment extends Fragment {
         unbinder = ButterKnife.bind(this, rootView);
         categoryLarge.setText(category[0]);
         setAdapter(0);
+
         return rootView;
     }
 
@@ -86,18 +129,22 @@ public class CategoryFragment extends Fragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.searchBtn:
+                ((MainActivity)getActivity()).searchByTitle(searchBar.getText().toString());
                 break;
             case R.id.categoryPhone:
                 categoryLarge.setText(category[0]);
-                setAdapter(0);
+                current_idx=0;
+                setAdapter(current_idx);
                 break;
             case R.id.categoryLaptop:
                 categoryLarge.setText(category[1]);
-                setAdapter(1);
+                current_idx=1;
+                setAdapter(current_idx);
                 break;
             case R.id.categoryElectronicProduct:
                 categoryLarge.setText(category[2]);
-                setAdapter(2);
+                current_idx=2;
+                setAdapter(current_idx);
                 break;
         }
     }

@@ -7,7 +7,10 @@ import android.support.annotation.Nullable;
 import com.google.gson.Gson;
 import com.gyuhwan.android.blockchain.MApplication;
 import com.gyuhwan.android.blockchain.dataSchema.Data;
+import com.gyuhwan.android.blockchain.dataSchema.ItemSearchResult;
 import com.gyuhwan.android.blockchain.dataSchema.Keystore;
+import com.gyuhwan.android.blockchain.dataSchema.User;
+import com.gyuhwan.android.blockchain.dataSchema.UserData;
 
 public class SharedPreferenceBase {
     private static SharedPreferences sp;
@@ -44,6 +47,24 @@ public class SharedPreferenceBase {
         editor.commit();
     }
 
+    public static void putItemListSharedPreference(String key, ItemSearchResult value) {
+        sp = MApplication.getInstance().getSharedPreferences("storage", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(value);
+        editor.putString(key, json);
+        editor.commit();
+    }
+
+    public static void putUserDataSharedPreference(String key, UserData value) {
+        sp = MApplication.getInstance().getSharedPreferences("storage", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(value);
+        editor.putString(key, json);
+        editor.commit();
+    }
+
     public static String getSharedPreference(String key, @Nullable String defaultValue) {
         sp = MApplication.getInstance().getSharedPreferences("storage", Context.MODE_PRIVATE);
         return sp.getString(key, defaultValue);
@@ -65,6 +86,24 @@ public class SharedPreferenceBase {
         Gson gson = new Gson();
         String json = sp.getString(key, "");
         Keystore obj = gson.fromJson(json, Keystore.class);
+        return obj;
+    }
+
+    public static ItemSearchResult getItemListSharedPreference(String key){
+        sp = MApplication.getInstance().getSharedPreferences("storage", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        Gson gson = new Gson();
+        String json = sp.getString(key, "");
+        ItemSearchResult obj = gson.fromJson(json, ItemSearchResult.class);
+        return obj;
+    }
+
+    public static UserData getUserDataSharedPreference(String key){
+        sp = MApplication.getInstance().getSharedPreferences("storage", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        Gson gson = new Gson();
+        String json = sp.getString(key, "");
+        UserData obj = gson.fromJson(json, UserData.class);
         return obj;
     }
 }

@@ -2,7 +2,10 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    >
     <TextView
         android:background="#1fa3ff"
         android:layout_width="match_parent"
@@ -40,54 +43,72 @@
         />
 
     <android.support.v7.widget.RecyclerView
-        android:background="#f00"
         android:id="@+id/homeItemList"
         android:layout_width="match_parent"
-        android:layout_height="179dp"
+        android:layout_height="160dp"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@+id/searchBar"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="42dp"
+        android:layout_marginTop="20dp"
         >
     </android.support.v7.widget.RecyclerView>
 
     <ImageView
-        android:background="#0f0"
+        android:background="@drawable/artboard4_image"
         android:id="@+id/imageViewPager"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="108dp"
         app:layout_constraintTop_toBottomOf="@+id/homeItemList"
         app:layout_constraintLeft_toLeftOf="parent"
         />
 
+    
+    <ImageView
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:background="@drawable/dia"
+
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewPager"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
     <TextView
         android:id="@+id/textSeller"
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="25dp"
+        android:layout_marginLeft="35dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="신뢰 판매자"
-        android:textSize="24dp"
+        android:text="Hot Seller"
+        android:fontFamily="@font/yoongothic"
+        android:textSize="12sp"
+        android:textColor="#1fa3ff"
         app:layout_constraintTop_toBottomOf="@+id/imageViewPager"
         app:layout_constraintLeft_toLeftOf="parent"
         />
     <android.support.v7.widget.RecyclerView
-        android:background="#00f"
-        android:layout_margin="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="26dp"
+        android:layout_marginRight="26dp"
         android:id="@+id/homeSellerList"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="90dp"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@+id/textSeller"
         app:layout_constraintLeft_toLeftOf="parent"
         />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/addItemBtn"
+        android:layout_width="191dp"
+        android:layout_height="30dp"
+        android:background="#fda372"
+        android:textColor="#fff"
         android:text="판매상품 등록"
-        android:layout_marginTop="30dp"
+        android:textSize="12sp"
+        android:fontFamily="@font/yoongothic"
+        android:layout_marginTop="25dp"
         app:layout_constraintTop_toBottomOf="@+id/homeSellerList"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

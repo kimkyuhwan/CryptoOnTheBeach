@@ -6,4 +6,51 @@
     android:layout_height="match_parent"
     tools:context=".activity.ItemDetailActivity">
 
+    <ImageView
+        android:id="@+id/itemImage"
+        android:layout_width="match_parent"
+        android:layout_height="360dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+    <TextView
+        android:id="@+id/itemName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/yoongothic"
+        android:textSize="17sp"
+        android:text="A급 아이폰7 128GB 실버"
+        android:textColor="#2f2f2f"
+        android:layout_marginLeft="14dp"
+        android:layout_marginTop="14dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/itemImage"
+        />
+    <TextView
+        android:id="@+id/itemPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/yoongothic"
+        android:textSize="22sp"
+        android:text="460,000원"
+        android:textColor="#1fa3ff"
+        android:layout_marginLeft="14dp"
+        android:layout_marginTop="3dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/itemName"
+        />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/itemTracking"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/itemPrice"
+
+        >
+
+
+    </android.support.v7.widget.RecyclerView>
+
 </android.support.constraint.ConstraintLayout>

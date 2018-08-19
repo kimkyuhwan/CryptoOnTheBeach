@@ -1,5 +1,6 @@
 package com.gyuhwan.android.blockchain.activity;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -10,9 +11,11 @@ import android.widget.Toast;
 import com.gyuhwan.android.blockchain.MApplication;
 import com.gyuhwan.android.blockchain.R;
 import com.gyuhwan.android.blockchain.dataSchema.EthereumAccount;
+import com.gyuhwan.android.blockchain.dataSchema.ItemSearchResult;
 import com.gyuhwan.android.blockchain.dataSchema.Keystore;
 import com.gyuhwan.android.blockchain.fragment.CategoryFragment;
 import com.gyuhwan.android.blockchain.fragment.HomeFragment;
+import com.gyuhwan.android.blockchain.fragment.ItemListFragment;
 import com.gyuhwan.android.blockchain.fragment.MyPageFragment;
 import com.gyuhwan.android.blockchain.util.SharedPreferenceBase;
 
@@ -34,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     HomeFragment homeFragment;
     CategoryFragment categoryFragment;
     MyPageFragment myPageFragment;
+    ItemListFragment itemListFragment;
     @BindView(R.id.fragment_container)
     FrameLayout fragmentContainer;
     @BindView(R.id.mainTab)
@@ -48,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         homeFragment = new HomeFragment();
         categoryFragment = new CategoryFragment();
         myPageFragment = new MyPageFragment();
+        itemListFragment=new ItemListFragment();
         setTabLayout();
         if (savedInstanceState == null) {
             onFragmentChanage("home");
@@ -62,18 +67,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int idx = tab.getPosition();
-                switch (idx) {
-                    case 0:
-                        onFragmentChanage("home");
-                        break;
-                    case 1:
-                        onFragmentChanage("category");
-                        break;
-                    case 2:
-                        onFragmentChanage("mypage");
-                        getEthereumAccount();
-                        break;
-                }
+                FragmentChange(idx);
             }
 
             @Override
@@ -83,110 +77,69 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
+                int idx = tab.getPosition();
+                FragmentChange(idx);
+            }
+        });
+    }
+
+    public void searchByTitle(String title){
+        MApplication.getInstance().getApiService().searchByTitle(title).enqueue(new Callback<ItemSearchResult>() {
+            @Override
+            public void onResponse(Call<ItemSearchResult> call, Response<ItemSearchResult> response) {
+                if(response.isSuccessful()){
+                    SharedPreferenceBase.putItemListSharedPreference("itemlist",response.body());
+                    Log.d("DEBUGYU","SUCCESS!!") ;
+                    onFragmentChanage("itemlist");
+                }
+                else{
+                    Log.d("DEBUGYU","DONE!!") ;
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ItemSearchResult> call, Throwable t) {
 
             }
         });
     }
 
-    void onFragmentChanage(String fragmentName) {
-        if (fragmentName == currentFragmentName) return;
-        currentFragmentName = fragmentName;
-        if (fragmentName == "home") {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, homeFragment).commit();
-        } else if (fragmentName == "category") {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, categoryFragment).commit();
-        } else if (fragmentName == "mypage") {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myPageFragment).commit();
-        }
-    }
-/*
-    @OnClick({R.id.btnHome, R.id.btnCategory, R.id.btnMyPage})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.btnHome:
+    public void FragmentChange(int idx){
+        switch (idx) {
+            case 0:
+                onFragmentChanage("home");
                 break;
-            case R.id.btnCategory:
+            case 1:
                 onFragmentChanage("category");
-                addUser();
                 break;
-            case R.id.btnMyPage:
-
-                //getCategory("Samsung");
+            case 2:
+                onFragmentChanage("mypage");
+                // getEthereumAccount();
                 break;
         }
-    }*/
-
-
-    public void getEthereumAccount() {
-        RequestBody requestBody = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("password", "world")
-                .build();
-        Log.w("DEBUGYU", requestBody.toString());
-        MApplication.getInstance().getChainService().getEthereumAccount(requestBody)
-                .enqueue(new Callback<EthereumAccount>() {
-                    @Override
-                    public void onResponse(Call<EthereumAccount> call, Response<EthereumAccount> response) {
-                        if (response.isSuccessful()) {
-                            EthereumAccount temp = response.body();
-                            Keystore beSavedKeyStore = temp.getData().getKeystore();
-                            Log.d("DEBUGYU", beSavedKeyStore.getAddress());
-                            SharedPreferenceBase.putKeyStoreSharedPreference("keystore", beSavedKeyStore);
-
-                        } else {
-
-                            Log.w("DEBUGYU", "IN : " + response.message());
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<EthereumAccount> call, Throwable t) {
-                        Log.w("DEBUGYU", "FAIL : " + t.getMessage());
-                        Log.w("DEBUGYU", "URL : " + call.request().url().toString());
-
-                        Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-
-                    }
-                });
     }
 
-    public void getCategory(String value) {
-        MApplication.getInstance().getApiService().searchByCategory(value)
-                .enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        if (response.isSuccessful()) {
-                            try {
-                                String value = response.body().string();
-                                Log.d("DEBUGYU", value);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
+    public void onFragmentChanage(String fragmentName) {
+        if (!fragmentName.equals("itemlist") && fragmentName.equals(currentFragmentName)){
+            Log.w("DEBUGYU","Return!: "+fragmentName);
+            return;
+        }
+        currentFragmentName = fragmentName;
+        Log.w("DEBUGYU","Current : "+currentFragmentName);
+        if (fragmentName.equals("home")) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, homeFragment).commit();
+        } else if (fragmentName.equals("category")) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, categoryFragment).commit();
+        } else if (fragmentName.equals("mypage")) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myPageFragment).commit();
+        } else if(fragmentName.equals("itemlist")){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, itemListFragment).commit();
 
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+        }
     }
+
+
+
+
 }
-
-/*
-    void initManager(){
-        manager=SimpleStroageTranscationManager.getInstance();
-    }
-
-
-    @OnClick({R.id.btnsetValue, R.id.btngetValue})
-    public void onViewClicked(View view){
-        switch (view.getId()) {
-            case R.id.btnsetValue:
-                manager.setContractValueExecute(editValue.getText().toString());
-                break;
-            case R.id.btngetValue:
-                manager.getContractValueAndSetTextView(txValue);
-                break;
-        }
-    }*/

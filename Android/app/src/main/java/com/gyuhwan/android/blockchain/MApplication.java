@@ -9,6 +9,8 @@ import com.gyuhwan.android.blockchain.network.ApiService;
 import com.gyuhwan.android.blockchain.network.ChainService;
 import com.gyuhwan.android.blockchain.util.SharedPreferenceBase;
 
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -46,11 +48,19 @@ public class MApplication extends Application {
             Gson gson=new GsonBuilder()
                     .setLenient()
                     .create();
+
+            OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                    .connectTimeout(1, TimeUnit.MINUTES)
+                    .readTimeout(30, TimeUnit.SECONDS)
+                    .writeTimeout(15, TimeUnit.SECONDS)
+                    .build();
+
             OkHttpClient.Builder oktHttpClient = new OkHttpClient.Builder();
             retrofit = new Retrofit.Builder().
                     baseUrl(ChainService.URL).
-                    client(oktHttpClient.build()).
+                    client(okHttpClient).
                     addConverterFactory(GsonConverterFactory.create(gson)).
+
                     build();
             chainService = retrofit.create(ChainService.class);
         }

@@ -11,6 +11,9 @@ import android.widget.Toast;
 import com.gyuhwan.android.blockchain.MApplication;
 import com.gyuhwan.android.blockchain.R;
 import com.gyuhwan.android.blockchain.dataSchema.Code;
+import com.gyuhwan.android.blockchain.dataSchema.EthereumAccount;
+import com.gyuhwan.android.blockchain.dataSchema.Keystore;
+import com.gyuhwan.android.blockchain.util.SharedPreferenceBase;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -77,7 +80,7 @@ public class SignUpActivity extends AppCompatActivity {
                 .addFormDataPart("email", inputEmail.getText().toString())
                 .addFormDataPart("password", inputPassword.getText().toString())
                 .addFormDataPart("username", inputName.getText().toString())
-                .addFormDataPart("etherAddress", inputEthAddress.getText().toString())
+                .addFormDataPart("etheraddress", inputEthAddress.getText().toString())
                 .build();
         MApplication.getInstance().getApiService().addUser(requestBody).
                 enqueue(new Callback<Code>() {
@@ -91,7 +94,12 @@ public class SignUpActivity extends AppCompatActivity {
                                 inputEmail.setText("");
                                 inputPassword.setText("");
                             }
+                            else if(result.equals("WRONG_PASSWORD")){
+                                Toast.makeText(getApplicationContext(),"비밀번호가 잘못되었습니다",Toast.LENGTH_LONG).show();;
+                                inputPassword.setText("");
+                            }
                             else if(result.equals("OK")){
+                                getEthereumAccount();
                                 Toast.makeText(getApplicationContext(),"회원가입 되었습니다",Toast.LENGTH_LONG).show();
                                 Intent it=new Intent(SignUpActivity.this,SignInActivity.class);
                                 startActivity(it);
@@ -106,6 +114,38 @@ public class SignUpActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<Code> call, Throwable t) {
+
+                    }
+                });
+    }
+    public void getEthereumAccount() {
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("password", inputPassword.getText().toString())
+                .build();
+        Log.w("DEBUGYU", requestBody.toString());
+        MApplication.getInstance().getChainService().getEthereumAccount(requestBody)
+                .enqueue(new Callback<EthereumAccount>() {
+                    @Override
+                    public void onResponse(Call<EthereumAccount> call, Response<EthereumAccount> response) {
+                        if (response.isSuccessful()) {
+                            EthereumAccount temp = response.body();
+                            Keystore beSavedKeyStore = temp.getData().getKeystore();
+                            Log.d("DEBUGYU", beSavedKeyStore.getAddress());
+                            SharedPreferenceBase.putKeyStoreSharedPreference(inputEmail.getText().toString(), beSavedKeyStore);
+
+                        } else {
+
+                            Log.w("DEBUGYU", "IN : " + response.message());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<EthereumAccount> call, Throwable t) {
+                        Log.w("DEBUGYU", "FAIL : " + t.getMessage());
+                        Log.w("DEBUGYU", "URL : " + call.request().url().toString());
+
+                        Toast.makeText(SignUpActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
 
                     }
                 });
