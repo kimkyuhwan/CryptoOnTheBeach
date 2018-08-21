@@ -13,6 +13,7 @@ public class ItemHolder extends RecyclerView.ViewHolder {
     private Context context;
     private View view;
     public TextView nameView;
+    public TextView priceView;
     public ImageView imageView;
     public ImageView tierView;
 
@@ -21,12 +22,14 @@ public class ItemHolder extends RecyclerView.ViewHolder {
         context = _context;
         view = _itemView;
         nameView = view.findViewById(R.id.item_name);
+        priceView = view.findViewById(R.id.item_price);
         imageView = view.findViewById(R.id.item_image);
         tierView = view.findViewById(R.id.item_tier);
     }
 
-    public void setData(String _name, String _imageurl, String _tier) {
+    public void setData(String _name,String _price, String _imageurl, String _tier) {
         nameView.setText(_name);
+        priceView.setText(_price);
         Picasso.get()
                 .load(_imageurl)
                 .resize(200, 160)

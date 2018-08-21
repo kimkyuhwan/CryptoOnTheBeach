@@ -71,9 +71,16 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
         unbinder = ButterKnife.bind(this, rootView);
+        Log.d("DEBUGYU_AAA","onCreateView");
+        return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("DEBUGYU_AAA","onResume");
         getRecentThing();
         getBestSeller();
-        return rootView;
     }
 
     void setAdapter(List<ItemThing> result){
@@ -85,23 +92,27 @@ public class HomeFragment extends Fragment {
         }
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.HORIZONTAL);
-        homeItemList.setLayoutManager(llm);
-        homeItemList.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+        if(homeItemList!=null){
+            homeItemList.setLayoutManager(llm);
+            homeItemList.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+        }
     }
 
-    void setBestSellerAdapter(List<UserData> result){
-        bestSellerAdapter=new bestSellerAdapter(getActivity() );
-        for(int i=0;i<result.size();i++){
-            UserData temp=result.get(i);
-            Log.w("DEBUGYU","ID : "+temp.getId());
+    void setBestSellerAdapter(List<UserData> result) {
+        bestSellerAdapter = new bestSellerAdapter(getActivity());
+        for (int i = 0; i < result.size(); i++) {
+            UserData temp = result.get(i);
+            Log.w("DEBUGYU", "ID : " + temp.getId());
             bestSellerAdapter.addItem(temp);
         }
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.HORIZONTAL);
-        homeSellerList.setLayoutManager(llm);
-        homeSellerList.setAdapter(bestSellerAdapter);
-        bestSellerAdapter.notifyDataSetChanged();
+        if (homeSellerList != null) {
+            homeSellerList.setLayoutManager(llm);
+            homeSellerList.setAdapter(bestSellerAdapter);
+            bestSellerAdapter.notifyDataSetChanged();
+        }
     }
     void getRecentThing(){
         MApplication.getInstance().getApiService().getRecentThing().enqueue(new Callback<ItemSearchResult>() {
@@ -139,6 +150,8 @@ public class HomeFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        Log.d("DEBUGYU_AAA","onDestoryView");
+
         unbinder.unbind();
     }
 

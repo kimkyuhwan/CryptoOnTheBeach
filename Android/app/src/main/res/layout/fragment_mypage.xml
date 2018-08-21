@@ -18,7 +18,7 @@
     <TextView
         android:background="#F0EDED"
         android:layout_width="match_parent"
-        android:layout_height="86dp"
+        android:layout_height="90dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginTop="61dp"
@@ -61,6 +61,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:layout_constraintTop_toBottomOf="@+id/valueCoin"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="3dp"
+        android:background="#1fa3ff"
+
+        />
 
     <TextView
         android:id="@+id/valueAccount"
@@ -74,6 +85,103 @@
         app:layout_constraintRight_toRightOf="parent"
 
         />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:layout_constraintTop_toBottomOf="@+id/valueAccount"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="3dp"
+        android:background="#1fa3ff"
+
+        />
+
+
+    <ImageView
+        android:id="@+id/sellerTier"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:background="@drawable/gold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/valueAccount"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="38dp"
+        />
+    
+    <TextView
+        android:id="@+id/sellerText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/yoongothic"
+        android:text="Seller"
+        android:textSize="14sp"
+        android:textColor="#2f2f2f"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/valueAccount"
+        android:layout_marginLeft="98dp"
+        android:layout_marginTop="45dp"
+        />
+    
+    <TextView
+        android:id="@+id/underlineSeller"
+        android:layout_width="158dp"
+        android:layout_height="1dp"
+        android:background="#2f2f2f"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/valueAccount"
+        android:layout_marginLeft="18dp"
+        android:layout_marginTop="74dp"
+        />
+
+    <ImageView
+        android:id="@+id/buyerTier"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:background="@drawable/silver"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/valueAccount"
+        android:layout_marginRight="100dp"
+        android:layout_marginTop="38dp"
+        />
+
+    <TextView
+        android:id="@+id/buyerText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/yoongothic"
+        android:text="Buyer"
+        android:textSize="14sp"
+        android:textColor="#2f2f2f"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/valueAccount"
+        android:layout_marginRight="62dp"
+        android:layout_marginTop="45dp"
+        />
+
+    <TextView
+        android:id="@+id/underlineBuyer"
+        android:layout_width="158dp"
+        android:layout_height="1dp"
+        android:background="#2f2f2f"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/valueAccount"
+        android:layout_marginRight="18dp"
+        android:layout_marginTop="74dp"
+        android:visibility="invisible"
+        />
+    
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/tradeList"
+        android:layout_width="match_parent"
+        android:layout_height="325dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sellerTier"
+        android:layout_margin="17dp"
+        >
+
+
+    </android.support.v7.widget.RecyclerView>
 
 
 

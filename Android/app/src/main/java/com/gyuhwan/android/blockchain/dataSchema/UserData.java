@@ -25,7 +25,7 @@ public class UserData {
     private String sellerTier;
     @SerializedName("etherAddress")
     @Expose
-    private Object etherAddress;
+    private String etherAddress;
 
     public Integer getId() {
         return id;
@@ -75,11 +75,11 @@ public class UserData {
         this.sellerTier = sellerTier;
     }
 
-    public Object getEtherAddress() {
+    public String getEtherAddress() {
         return etherAddress;
     }
 
-    public void setEtherAddress(Object etherAddress) {
+    public void setEtherAddress(String etherAddress) {
         this.etherAddress = etherAddress;
     }
 

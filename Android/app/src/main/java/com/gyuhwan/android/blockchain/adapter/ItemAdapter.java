@@ -42,7 +42,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemHolder> {
     @Override
     public void onBindViewHolder(@NonNull ItemHolder holder, int position) {
         ItemThing posItem = itemList.get(position);
-        holder.setData(posItem.getTitle(),posItem.getPicDir(),posItem.getSellerTier());
+        String price = String.format("%,d",posItem.getPrice());
+        holder.setData(posItem.getTitle(),price,posItem.getPicDir(),posItem.getSellerTier());
         holder.imageView.setOnClickListener((View v) -> {
             Intent it=new Intent(context, ItemDetailActivity.class);
             it.putExtra("item_thing",posItem.getId());
