@@ -97,86 +97,89 @@
 
         />
 
-
-    <ImageView
-        android:id="@+id/sellerTier"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:background="@drawable/gold"
-        app:layout_constraintLeft_toLeftOf="parent"
+    <LinearLayout
         app:layout_constraintTop_toBottomOf="@+id/valueAccount"
-        android:layout_marginLeft="60dp"
-        android:layout_marginTop="38dp"
-        />
-    
-    <TextView
-        android:id="@+id/sellerText"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/yoongothic"
-        android:text="Seller"
-        android:textSize="14sp"
-        android:textColor="#2f2f2f"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/valueAccount"
-        android:layout_marginLeft="98dp"
-        android:layout_marginTop="45dp"
-        />
-    
-    <TextView
-        android:id="@+id/underlineSeller"
-        android:layout_width="158dp"
-        android:layout_height="1dp"
-        android:background="#2f2f2f"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/valueAccount"
-        android:layout_marginLeft="18dp"
-        android:layout_marginTop="74dp"
-        />
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp"
+        android:id="@+id/mypageTab"
+        >
 
-    <ImageView
-        android:id="@+id/buyerTier"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:background="@drawable/silver"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/valueAccount"
-        android:layout_marginRight="100dp"
-        android:layout_marginTop="38dp"
-        />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:id="@+id/sellerLayout"
+            android:gravity="center"
+            android:background="@drawable/ing_textlines"
+            >
+            <ImageView
+                android:layout_gravity="center_vertical"
 
-    <TextView
-        android:id="@+id/buyerText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/yoongothic"
-        android:text="Buyer"
-        android:textSize="14sp"
-        android:textColor="#2f2f2f"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/valueAccount"
-        android:layout_marginRight="62dp"
-        android:layout_marginTop="45dp"
-        />
+                android:id="@+id/sellerTier"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@drawable/gold"
+                />
 
-    <TextView
-        android:id="@+id/underlineBuyer"
-        android:layout_width="158dp"
-        android:layout_height="1dp"
-        android:background="#2f2f2f"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/valueAccount"
-        android:layout_marginRight="18dp"
-        android:layout_marginTop="74dp"
-        android:visibility="invisible"
-        />
+            <TextView
+                android:layout_marginLeft="7dp"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/yoongothic"
+                android:text="Seller"
+                android:textSize="14sp"
+                android:textColor="#2f2f2f"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:id="@+id/buyerLayout"
+            android:gravity="center"
+
+            >
+            <ImageView
+                android:id="@+id/buyerTier"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/silver"
+                />
+
+            <TextView
+                android:layout_marginLeft="7dp"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/yoongothic"
+                android:text="Buyer"
+                android:textSize="14sp"
+                android:textColor="#2f2f2f"
+                />
+
+
+
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
     
     <android.support.v7.widget.RecyclerView
         android:id="@+id/tradeList"
         android:layout_width="match_parent"
         android:layout_height="325dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sellerTier"
+        app:layout_constraintTop_toBottomOf="@+id/mypageTab"
         android:layout_margin="17dp"
         >
 

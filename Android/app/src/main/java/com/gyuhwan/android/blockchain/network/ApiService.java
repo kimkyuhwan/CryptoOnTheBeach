@@ -35,6 +35,7 @@ public interface ApiService {
 
     @GET("search")
     Call<ItemSearchResult> searchByBuyerId(@Query("buyer_id") int buyer_id);
+
     // title or category, seller_id, buyer_id
 
     @GET("recentThing")

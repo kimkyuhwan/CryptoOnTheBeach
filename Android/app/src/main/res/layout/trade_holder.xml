@@ -15,7 +15,6 @@
         android:layout_height="43dp"
         android:textSize="12sp"
         android:textColor="#2f2f2f"
-        android:text="아이폰7 256GB"
         android:layout_marginLeft="15dp"
         android:gravity="center_vertical"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -28,7 +27,6 @@
         android:textSize="11sp"
         android:gravity="center_vertical"
 
-        android:text="거래종료"
         android:textColor="#1fa3ff"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginRight="19dp"

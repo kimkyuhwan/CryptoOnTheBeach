@@ -47,6 +47,7 @@ public class ItemListFragment extends Fragment {
     void setAdapter(){
         adapter=new ItemAdapter(getActivity() );
         List<ItemThing> result=SharedPreferenceBase.getItemListSharedPreference("itemlist").getResult();
+        if(result==null)return;
         Log.w("DEBUGYU","R: "+ result.size());
         for(int i=0;i<result.size();i++){
             ItemThing temp=result.get(i);

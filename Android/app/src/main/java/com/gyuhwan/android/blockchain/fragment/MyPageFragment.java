@@ -10,10 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.gyuhwan.android.blockchain.MApplication;
 import com.gyuhwan.android.blockchain.R;
 import com.gyuhwan.android.blockchain.adapter.tradeAdapter;
+import com.gyuhwan.android.blockchain.dataSchema.ItemSearchResult;
 import com.gyuhwan.android.blockchain.dataSchema.ItemThing;
 import com.gyuhwan.android.blockchain.dataSchema.UserData;
 import com.gyuhwan.android.blockchain.util.SharedPreferenceBase;
@@ -25,8 +28,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MyPageFragment extends Fragment {
+
+    Unbinder unbinder;
+    tradeAdapter adapter;
     @BindView(R.id.userId)
     TextView userId;
     @BindView(R.id.valueCoin)
@@ -35,22 +44,17 @@ public class MyPageFragment extends Fragment {
     TextView valueAccount;
     @BindView(R.id.sellerTier)
     ImageView sellerTier;
-    @BindView(R.id.sellerText)
-    TextView sellerText;
+    @BindView(R.id.sellerLayout)
+    LinearLayout sellerLayout;
     @BindView(R.id.buyerTier)
     ImageView buyerTier;
-    @BindView(R.id.buyerText)
-    TextView buyerText;
+    @BindView(R.id.buyerLayout)
+    LinearLayout buyerLayout;
+    @BindView(R.id.mypageTab)
+    LinearLayout mypageTab;
     @BindView(R.id.tradeList)
     RecyclerView tradeList;
-    Unbinder unbinder;
 
-
-    tradeAdapter adapter;
-    @BindView(R.id.underlineSeller)
-    TextView underlineSeller;
-    @BindView(R.id.underlineBuyer)
-    TextView underlineBuyer;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -101,6 +105,7 @@ public class MyPageFragment extends Fragment {
 
     void setAdapter(List<ItemThing> result) {
         adapter = new tradeAdapter(getActivity());
+        if(result==null )return;
         for (int i = 0; i < result.size(); i++) {
             ItemThing temp = result.get(i);
             Log.w("DEBUGYU", "ID : " + temp.getId());
@@ -116,27 +121,67 @@ public class MyPageFragment extends Fragment {
     }
 
     void getSellItemList() {
-        ItemThing dummy[]=new ItemThing[3];
-        dummy[0]=new ItemThing();
-        dummy[1]=new ItemThing();
-        dummy[2]=new ItemThing();
+        int user_id=SharedPreferenceBase.getUserDataSharedPreference("user").getId();
+        Log.d("DEBUGYU","user_id : "+user_id);
+        MApplication.getInstance().getApiService().searchBySellerId(user_id).enqueue(new Callback<ItemSearchResult>() {
+            @Override
+            public void onResponse(Call<ItemSearchResult> call, Response<ItemSearchResult> response) {
+                if(response.isSuccessful()){
+                    Log.w("DEBUGYU_AAA",call.request().url().toString());
+                    setAdapter(response.body().getResult());
+                }
+                else{
+                    Log.d("DEBUGYU","DONE!!") ;
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ItemSearchResult> call, Throwable t) {
+
+            }
+        });
+        /*
+        ItemThing dummy[] = new ItemThing[3];
+        dummy[0] = new ItemThing();
+        dummy[1] = new ItemThing();
+        dummy[2] = new ItemThing();
         dummy[0].setStatus(0);
         dummy[0].setTitle("아이폰7 128GB");
         dummy[1].setStatus(1);
         dummy[1].setTitle("아이폰6 32GB");
         dummy[2].setStatus(1);
         dummy[2].setTitle("갤럭시 S7 32GB");
-        ArrayList<ItemThing> list=new ArrayList<ItemThing>();
-        for(int i=0;i<3;i++)
+        ArrayList<ItemThing> list = new ArrayList<ItemThing>();
+        for (int i = 0; i < 3; i++)
             list.add(dummy[i]);
-        setAdapter(list);
+        setAdapter(list);*/
     }
 
     void getBuyItemList() {
-        ItemThing dummy[]=new ItemThing[3];
-        dummy[0]=new ItemThing();
-        dummy[1]=new ItemThing();
-        dummy[2]=new ItemThing();
+        int user_id=SharedPreferenceBase.getUserDataSharedPreference("user").getId();
+        MApplication.getInstance().getApiService().searchByBuyerId(user_id).enqueue(new Callback<ItemSearchResult>() {
+            @Override
+            public void onResponse(Call<ItemSearchResult> call, Response<ItemSearchResult> response) {
+                if(response.isSuccessful()){
+                    setAdapter(response.body().getResult());
+                }
+                else{
+                    Log.d("DEBUGYU","DONE!!") ;
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ItemSearchResult> call, Throwable t) {
+
+            }
+        });
+        /*
+        ItemThing dummy[] = new ItemThing[3];
+        dummy[0] = new ItemThing();
+        dummy[1] = new ItemThing();
+        dummy[2] = new ItemThing();
 
         dummy[0].setStatus(1);
         dummy[0].setTitle("아이폰7 128GB");
@@ -146,26 +191,24 @@ public class MyPageFragment extends Fragment {
 
         dummy[2].setStatus(1);
         dummy[2].setTitle("갤럭시 S7 32GB");
-        ArrayList<ItemThing> list=new ArrayList<ItemThing>();
-        for(int i=0;i<3;i++)
+        ArrayList<ItemThing> list = new ArrayList<ItemThing>();
+        for (int i = 0; i < 3; i++)
             list.add(dummy[i]);
-        setAdapter(list);
+        setAdapter(list);*/
     }
 
-    @OnClick({R.id.sellerTier, R.id.sellerText, R.id.buyerTier, R.id.buyerText})
+    @OnClick({R.id.sellerLayout, R.id.buyerLayout})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.sellerTier:
-            case R.id.sellerText:
+            case R.id.sellerLayout:
                 getSellItemList();
-                underlineSeller.setVisibility(View.VISIBLE);
-                underlineBuyer.setVisibility(View.INVISIBLE);
+                sellerLayout.setBackgroundResource(R.drawable.ing_textlines);
+                buyerLayout.setBackgroundColor(getResources().getColor(android.R.color.white));
                 break;
-            case R.id.buyerTier:
-            case R.id.buyerText:
+            case R.id.buyerLayout:
                 getBuyItemList();
-                underlineBuyer.setVisibility(View.VISIBLE);
-                underlineSeller.setVisibility(View.INVISIBLE);
+                buyerLayout.setBackgroundResource(R.drawable.ing_textlines);
+                sellerLayout.setBackgroundColor(getResources().getColor(android.R.color.white));
                 break;
         }
     }
