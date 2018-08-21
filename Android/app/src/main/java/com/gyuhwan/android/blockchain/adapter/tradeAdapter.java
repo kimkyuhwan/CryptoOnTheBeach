@@ -1,6 +1,7 @@
 package com.gyuhwan.android.blockchain.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.gyuhwan.android.blockchain.R;
+import com.gyuhwan.android.blockchain.activity.ItemDetailActivity;
 import com.gyuhwan.android.blockchain.dataSchema.ItemThing;
 import com.gyuhwan.android.blockchain.dataSchema.UserData;
 import com.gyuhwan.android.blockchain.viewHolder.sellerHolder;
@@ -42,6 +44,11 @@ public class tradeAdapter extends RecyclerView.Adapter<tradeHolder> {
     public void onBindViewHolder(@NonNull tradeHolder holder, int position) {
         ItemThing posItem = itemList.get(position);
         holder.setData(posItem.getTitle(),posItem.getStatus());
+        holder.itemView.setOnClickListener((View v) -> {
+            Intent it=new Intent(context, ItemDetailActivity.class);
+            it.putExtra("item_thing",posItem.getId());
+            context.startActivity(it);
+        });
     }
 
     public void addItem(ItemThing thing){

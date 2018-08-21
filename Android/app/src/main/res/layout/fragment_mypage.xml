@@ -114,6 +114,7 @@
             android:id="@+id/sellerLayout"
             android:gravity="center"
             android:background="@drawable/ing_textlines"
+            android:layout_margin="5dp"
             >
             <ImageView
                 android:layout_gravity="center_vertical"
@@ -144,7 +145,7 @@
             android:orientation="horizontal"
             android:id="@+id/buyerLayout"
             android:gravity="center"
-
+            android:layout_margin="5dp"
             >
             <ImageView
                 android:id="@+id/buyerTier"

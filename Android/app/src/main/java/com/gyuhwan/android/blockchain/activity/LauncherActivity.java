@@ -100,7 +100,7 @@ public class LauncherActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.d("DEBUGYU","isDestory");
-        if(!disposable.isDisposed()) {
+        if(disposable!=null && !disposable.isDisposed()) {
             disposable.dispose();
         }
     }

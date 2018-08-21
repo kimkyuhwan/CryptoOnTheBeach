@@ -1,6 +1,7 @@
 package com.gyuhwan.android.blockchain.activity;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -20,9 +21,12 @@ import com.gyuhwan.android.blockchain.fragment.MyPageFragment;
 import com.gyuhwan.android.blockchain.util.SharedPreferenceBase;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -43,7 +47,14 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.mainTab)
     TabLayout mainTab;
 
-
+    boolean isPressed=false;
+    Disposable finishDisposable;
+    Observable finishObs=Observable.just("").
+            delay(1000, TimeUnit.MILLISECONDS).
+            doOnNext(item-> {
+                isPressed=false;
+                }
+            );
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,7 +150,26 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if(isPressed){
+            super.onBackPressed();
+        }
+        isPressed=true;
+        Toast.makeText(getApplicationContext(),"취소 버튼을 한 번 더 누르시면 앱이 종료됩니다.",Toast.LENGTH_LONG).show();
+        finishDisposable=finishObs.subscribe();
 
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("DEBUGYU","isDestory");
+        if(finishDisposable!=null && !finishDisposable.isDisposed()) {
+            finishDisposable.dispose();
+        }
+    }
 
 
 }
