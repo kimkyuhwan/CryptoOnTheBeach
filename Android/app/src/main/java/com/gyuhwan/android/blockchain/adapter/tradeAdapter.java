@@ -11,19 +11,17 @@ import android.view.ViewGroup;
 import com.gyuhwan.android.blockchain.R;
 import com.gyuhwan.android.blockchain.activity.ItemDetailActivity;
 import com.gyuhwan.android.blockchain.dataSchema.ItemThing;
-import com.gyuhwan.android.blockchain.dataSchema.UserData;
-import com.gyuhwan.android.blockchain.viewHolder.sellerHolder;
-import com.gyuhwan.android.blockchain.viewHolder.tradeHolder;
+import com.gyuhwan.android.blockchain.viewHolder.TradeHolder;
 
 import java.util.ArrayList;
 
-public class tradeAdapter extends RecyclerView.Adapter<tradeHolder> {
+public class TradeAdapter extends RecyclerView.Adapter<TradeHolder> {
 
     Context context;
     ArrayList<ItemThing> itemList;
 
 
-    public tradeAdapter(Context context) {
+    public TradeAdapter(Context context) {
         this.context = context;
         itemList=new ArrayList<ItemThing>() ;
     }
@@ -34,14 +32,14 @@ public class tradeAdapter extends RecyclerView.Adapter<tradeHolder> {
 
     @NonNull
     @Override
-    public tradeHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public TradeHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(context).inflate(R.layout.trade_holder,parent,false);
-        tradeHolder holder=new tradeHolder(view,context);
+        TradeHolder holder=new TradeHolder(view,context);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull tradeHolder holder, int position) {
+    public void onBindViewHolder(@NonNull TradeHolder holder, int position) {
         ItemThing posItem = itemList.get(position);
         holder.setData(posItem.getTitle(),posItem.getStatus());
         holder.itemView.setOnClickListener((View v) -> {

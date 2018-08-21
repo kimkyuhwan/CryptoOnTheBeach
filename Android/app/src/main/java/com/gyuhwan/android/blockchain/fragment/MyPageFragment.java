@@ -15,13 +15,12 @@ import android.widget.TextView;
 
 import com.gyuhwan.android.blockchain.MApplication;
 import com.gyuhwan.android.blockchain.R;
-import com.gyuhwan.android.blockchain.adapter.tradeAdapter;
+import com.gyuhwan.android.blockchain.adapter.TradeAdapter;
 import com.gyuhwan.android.blockchain.dataSchema.ItemSearchResult;
 import com.gyuhwan.android.blockchain.dataSchema.ItemThing;
 import com.gyuhwan.android.blockchain.dataSchema.UserData;
 import com.gyuhwan.android.blockchain.util.SharedPreferenceBase;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -35,7 +34,7 @@ import retrofit2.Response;
 public class MyPageFragment extends Fragment {
 
     Unbinder unbinder;
-    tradeAdapter adapter;
+    TradeAdapter adapter;
     @BindView(R.id.userId)
     TextView userId;
     @BindView(R.id.valueCoin)
@@ -104,7 +103,7 @@ public class MyPageFragment extends Fragment {
     }
 
     void setAdapter(List<ItemThing> result) {
-        adapter = new tradeAdapter(getActivity());
+        adapter = new TradeAdapter(getActivity());
         if(result==null )return;
         for (int i = 0; i < result.size(); i++) {
             ItemThing temp = result.get(i);

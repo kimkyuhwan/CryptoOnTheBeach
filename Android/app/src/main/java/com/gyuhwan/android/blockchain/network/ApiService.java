@@ -1,6 +1,7 @@
 package com.gyuhwan.android.blockchain.network;
 
 import com.gyuhwan.android.blockchain.dataSchema.BestSeller;
+import com.gyuhwan.android.blockchain.dataSchema.BuyerResult;
 import com.gyuhwan.android.blockchain.dataSchema.Code;
 import com.gyuhwan.android.blockchain.dataSchema.ItemSearchResult;
 import com.gyuhwan.android.blockchain.dataSchema.ItemThing;
@@ -20,7 +21,7 @@ public interface ApiService {
     Call<ResponseBody> addThing(@Body RequestBody body);
     //title, category, seller_id, uuid, file
 
-    @GET("getThing/")
+    @GET("getThing")
     Call<ItemThing> getThing(@Query("thingId") int thing_id);
     // thingId
 
@@ -51,5 +52,15 @@ public interface ApiService {
     @POST("addUser/")
     Call<Code> addUser(@Body RequestBody body);
     // username, password, displayName
+
+    @GET("listAskTrade")
+    Call<BuyerResult> listAskTrade(@Query("itemId") int item_id);
+
+
+    @POST("requestTrade/")
+    Call<Code> requestTrade(@Body RequestBody body);
+
+    @POST("acceptTrade/")
+    Call<Code> acceptTrade(@Body RequestBody body);
 
 }

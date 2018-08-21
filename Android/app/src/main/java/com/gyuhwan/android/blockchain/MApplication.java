@@ -67,7 +67,24 @@ public class MApplication extends Application {
         return chainService;
     }
 
-
+    public static String setTextBar(String keyword, String value,int cnt){
+        String result="";
+        if(keyword.equals("title")){
+            result="제품명으로 ";
+        }
+        else if(keyword.equals("category")){
+            result="카테고리로 ";
+        }
+        else if(keyword.equals("buyer_id")){
+            result="구매자명으로 ";
+        }
+        else if(keyword.equals("seller_id")){
+            result="판매자명으로 '";
+        }
+        result+=value+"'를 검색한 결과 ";
+        result+=String.valueOf(cnt)+"건";
+        return result;
+    }
     @Override
     public void onCreate() {
         super.onCreate();

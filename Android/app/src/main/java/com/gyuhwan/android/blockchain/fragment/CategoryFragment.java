@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -29,6 +31,8 @@ import butterknife.Unbinder;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.gyuhwan.android.blockchain.MApplication.setTextBar;
 
 public class CategoryFragment extends Fragment {
 
@@ -78,6 +82,8 @@ public class CategoryFragment extends Fragment {
                     public void onResponse(Call<ItemSearchResult> call, Response<ItemSearchResult> response) {
                         if(response.isSuccessful()){
                             SharedPreferenceBase.putItemListSharedPreference("itemlist",response.body());
+                            SharedPreferenceBase.putSharedPreference("searchText",setTextBar("category",categoryProduct[current_idx][pos],response.body().getResult().size()));
+
                             Log.d("DEBUGYU","SUCCESS!!") ;
                             ((MainActivity)getActivity()).onFragmentChanage("itemlist");
                         }
@@ -110,7 +116,15 @@ public class CategoryFragment extends Fragment {
         unbinder = ButterKnife.bind(this, rootView);
         categoryLarge.setText(category[0]);
         setAdapter(0);
-
+        searchBar.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if(i== EditorInfo.IME_ACTION_SEARCH){
+                    ((MainActivity)getActivity()).searchByTitle(searchBar.getText().toString());
+                }
+                return false;
+            }
+        });
         return rootView;
     }
 

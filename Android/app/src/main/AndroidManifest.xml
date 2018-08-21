@@ -26,6 +26,7 @@
         <activity android:name=".activity.SignUpActivity" />
         <activity android:name=".activity.ItemDetailActivity" />
         <activity android:name=".activity.AddItemActivity" />
+        <activity android:name=".activity.BuyerSelectActivity"/>
     </application>
 
 </manifest>

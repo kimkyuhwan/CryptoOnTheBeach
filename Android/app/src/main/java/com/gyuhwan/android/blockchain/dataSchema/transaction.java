@@ -3,7 +3,7 @@ package com.gyuhwan.android.blockchain.dataSchema;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class transaction {
+public class Transaction {
     @SerializedName("from")
     @Expose
     private String from;

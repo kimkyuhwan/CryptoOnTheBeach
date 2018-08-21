@@ -38,15 +38,29 @@
         android:layout_marginTop="17dp"
         android:layout_marginRight="21dp"
         />
-    
+
+    <TextView
+        android:id="@+id/itemListResult"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:text="제품명으로 '갤럭시 노트4 128GB을 검색한 결과 1건"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="55dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:textSize="12sp"
+        android:textColor="#000"
+        android:fontFamily="@font/yoongothic"
+        />
     
     <android.support.v7.widget.RecyclerView
         android:id="@+id/itemList"
         android:layout_width="match_parent"
-        android:layout_height="480dp"
+        android:layout_height="450dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="100dp"
         android:layout_marginLeft="17dp"
         android:layout_marginRight="17dp"
 

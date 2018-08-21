@@ -34,6 +34,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.gyuhwan.android.blockchain.MApplication.setTextBar;
+
 public class MainActivity extends AppCompatActivity {
 
     String currentFragmentName;
@@ -100,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<ItemSearchResult> call, Response<ItemSearchResult> response) {
                 if(response.isSuccessful()){
                     SharedPreferenceBase.putItemListSharedPreference("itemlist",response.body());
+                    SharedPreferenceBase.putSharedPreference("searchText",setTextBar("title",title,response.body().getResult().size()));
                     Log.d("DEBUGYU","SUCCESS!!") ;
                     onFragmentChanage("itemlist");
                 }
@@ -146,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myPageFragment).commit();
         } else if(fragmentName.equals("itemlist")){
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, itemListFragment).commit();
-
+            itemListFragment.setAdapter();
         }
     }
 

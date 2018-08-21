@@ -9,14 +9,14 @@ import android.widget.TextView;
 
 import com.gyuhwan.android.blockchain.R;
 
-public class tradeHolder extends RecyclerView.ViewHolder {
+public class TradeHolder extends RecyclerView.ViewHolder {
     private Context context;
     private View view;
     public TextView nameView;
     public TextView stateView;
     public ConstraintLayout layout;
 
-    public tradeHolder(View _itemView, Context _context) {
+    public TradeHolder(View _itemView, Context _context) {
         super(_itemView);
         context = _context;
         view = _itemView;

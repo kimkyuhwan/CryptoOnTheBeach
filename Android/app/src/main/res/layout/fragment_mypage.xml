@@ -115,6 +115,7 @@
             android:gravity="center"
             android:background="@drawable/ing_textlines"
             android:padding="5dp"
+            android:layout_margin="1dp"
             >
             <ImageView
                 android:layout_gravity="center_vertical"
@@ -146,6 +147,8 @@
             android:id="@+id/buyerLayout"
             android:gravity="center"
             android:padding="5dp"
+            android:layout_margin="1dp"
+
             >
             <ImageView
                 android:id="@+id/buyerTier"

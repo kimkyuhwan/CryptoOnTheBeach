@@ -9,13 +9,13 @@ import android.widget.TextView;
 import com.gyuhwan.android.blockchain.R;
 import com.squareup.picasso.Picasso;
 
-public class sellerHolder extends RecyclerView.ViewHolder {
+public class SellerHolder extends RecyclerView.ViewHolder {
     private Context context;
     private View view;
     public TextView nameView;
     public ImageView tierView;
 
-    public sellerHolder(View _itemView, Context _context) {
+    public SellerHolder(View _itemView, Context _context) {
         super(_itemView);
         context = _context;
         view = _itemView;

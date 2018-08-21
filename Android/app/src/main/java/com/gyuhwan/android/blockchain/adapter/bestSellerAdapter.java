@@ -1,7 +1,6 @@
 package com.gyuhwan.android.blockchain.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,14 +10,12 @@ import android.view.ViewGroup;
 
 import com.gyuhwan.android.blockchain.MApplication;
 import com.gyuhwan.android.blockchain.R;
-import com.gyuhwan.android.blockchain.activity.ItemDetailActivity;
 import com.gyuhwan.android.blockchain.activity.MainActivity;
 import com.gyuhwan.android.blockchain.dataSchema.ItemSearchResult;
-import com.gyuhwan.android.blockchain.dataSchema.ItemThing;
 import com.gyuhwan.android.blockchain.dataSchema.UserData;
+import com.gyuhwan.android.blockchain.fragment.ItemListFragment;
 import com.gyuhwan.android.blockchain.util.SharedPreferenceBase;
-import com.gyuhwan.android.blockchain.viewHolder.ItemHolder;
-import com.gyuhwan.android.blockchain.viewHolder.sellerHolder;
+import com.gyuhwan.android.blockchain.viewHolder.SellerHolder;
 
 import java.util.ArrayList;
 
@@ -26,13 +23,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class bestSellerAdapter extends RecyclerView.Adapter<sellerHolder> {
+import static com.gyuhwan.android.blockchain.MApplication.setTextBar;
+
+public class BestSellerAdapter extends RecyclerView.Adapter<SellerHolder> {
 
     Context context;
     ArrayList<UserData> userList;
 
 
-    public bestSellerAdapter(Context context) {
+    public BestSellerAdapter(Context context) {
         this.context = context;
         userList=new ArrayList<UserData>() ;
     }
@@ -43,14 +42,14 @@ public class bestSellerAdapter extends RecyclerView.Adapter<sellerHolder> {
 
     @NonNull
     @Override
-    public sellerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SellerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(context).inflate(R.layout.seller_holder,parent,false);
-        sellerHolder holder=new sellerHolder(view,context);
+        SellerHolder holder=new SellerHolder(view,context);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull sellerHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SellerHolder holder, int position) {
         UserData posUser = userList.get(position);
         holder.setData(posUser.getUsername(),posUser.getSellerTier());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -63,6 +62,7 @@ public class bestSellerAdapter extends RecyclerView.Adapter<sellerHolder> {
                         if(response.isSuccessful()){
                             SharedPreferenceBase.putItemListSharedPreference("itemlist",response.body());
                             Log.d("DEBUGYU","SUCCESS!!") ;
+                            SharedPreferenceBase.putSharedPreference("searchText",setTextBar("seller_id",posUser.getUsername(),response.body().getResult().size()));
                             ((MainActivity)context).onFragmentChanage("itemlist");
                         }
                         else{

@@ -15,7 +15,7 @@ public class TranscationData {
     private String message;
     @SerializedName("data")
     @Expose
-    private List<transaction> data = null;
+    private List<Transaction> data = null;
 
     public Integer getStatus() {
         return status;
@@ -33,11 +33,11 @@ public class TranscationData {
         this.message = message;
     }
 
-    public List<transaction> getData() {
+    public List<Transaction> getData() {
         return data;
     }
 
-    public void setData(List<transaction> data) {
+    public void setData(List<Transaction> data) {
         this.data = data;
     }
 

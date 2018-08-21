@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.gyuhwan.android.blockchain.MApplication;
+import com.gyuhwan.android.blockchain.dataSchema.BuyerResult;
 import com.gyuhwan.android.blockchain.dataSchema.Data;
 import com.gyuhwan.android.blockchain.dataSchema.ItemSearchResult;
 import com.gyuhwan.android.blockchain.dataSchema.Keystore;
@@ -65,6 +66,15 @@ public class SharedPreferenceBase {
         editor.commit();
     }
 
+    public static void putBuyerListSharedPreference(String key, BuyerResult value) {
+        sp = MApplication.getInstance().getSharedPreferences("storage", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(value);
+        editor.putString(key, json);
+        editor.commit();
+    }
+
     public static String getSharedPreference(String key, @Nullable String defaultValue) {
         sp = MApplication.getInstance().getSharedPreferences("storage", Context.MODE_PRIVATE);
         return sp.getString(key, defaultValue);
@@ -104,6 +114,15 @@ public class SharedPreferenceBase {
         Gson gson = new Gson();
         String json = sp.getString(key, "");
         UserData obj = gson.fromJson(json, UserData.class);
+        return obj;
+    }
+
+    public static BuyerResult getBuyerListSharedPreference(String key){
+        sp = MApplication.getInstance().getSharedPreferences("storage", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        Gson gson = new Gson();
+        String json = sp.getString(key, "");
+        BuyerResult obj = gson.fromJson(json, BuyerResult.class);
         return obj;
     }
 }

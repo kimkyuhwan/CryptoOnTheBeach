@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.ItemDetailActivity">
+    tools:context=".activity.ItemDetailActivity"
+    >
 
     <ImageView
         android:id="@+id/itemImage"
@@ -37,6 +38,19 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/itemName"
         />
+    <Button
+        android:id="@+id/tradeBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/itemImage"
+        android:background="#1fa3ff"
+        android:textColor="#fff"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="10dp"
+        />
+
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/itemTracking"
         android:layout_width="match_parent"

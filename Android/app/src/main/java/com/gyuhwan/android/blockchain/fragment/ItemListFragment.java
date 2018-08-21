@@ -7,20 +7,21 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.gyuhwan.android.blockchain.R;
 import com.gyuhwan.android.blockchain.activity.MainActivity;
 import com.gyuhwan.android.blockchain.adapter.ItemAdapter;
-import com.gyuhwan.android.blockchain.dataSchema.ItemSearchResult;
 import com.gyuhwan.android.blockchain.dataSchema.ItemThing;
 import com.gyuhwan.android.blockchain.util.SharedPreferenceBase;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -38,27 +39,32 @@ public class ItemListFragment extends Fragment {
     Unbinder unbinder;
 
     ItemAdapter adapter;
+    @BindView(R.id.itemListResult)
+    TextView itemListResult;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
-    void setAdapter(){
-        adapter=new ItemAdapter(getActivity() );
-        List<ItemThing> result=SharedPreferenceBase.getItemListSharedPreference("itemlist").getResult();
-        if(result==null)return;
-        Log.w("DEBUGYU","R: "+ result.size());
-        for(int i=0;i<result.size();i++){
-            ItemThing temp=result.get(i);
-            Log.w("DEBUGYU","ID : "+temp.getId());
+    public void setAdapter() {
+        adapter = new ItemAdapter(getActivity());
+       if(itemListResult!=null) itemListResult.setText(SharedPreferenceBase.getSharedPreference("searchText",""));
+        List<ItemThing> result = SharedPreferenceBase.getItemListSharedPreference("itemlist").getResult();
+        if (result == null) return;
+        Log.w("DEBUGYU", "R: " + result.size());
+        for (int i = 0; i < result.size(); i++) {
+            ItemThing temp = result.get(i);
+            Log.w("DEBUGYU", "ID : " + temp.getId());
             adapter.addItem(temp);
         }
-        LinearLayoutManager llm = new GridLayoutManager(getActivity(),2);
+        LinearLayoutManager llm = new GridLayoutManager(getActivity(), 2);
         llm.setOrientation(GridLayoutManager.VERTICAL);
-        itemList.setLayoutManager(llm);
-        itemList.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+        if (itemList != null) {
+            itemList.setLayoutManager(llm);
+            itemList.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -73,6 +79,15 @@ public class ItemListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_item_list, container, false);
         unbinder = ButterKnife.bind(this, rootView);
+        searchBar.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_SEARCH) {
+                    ((MainActivity) getActivity()).searchByTitle(searchBar.getText().toString());
+                }
+                return false;
+            }
+        });
         return rootView;
     }
 
@@ -89,7 +104,9 @@ public class ItemListFragment extends Fragment {
 
     @OnClick(R.id.searchBtn)
     public void onViewClicked() {
-        ((MainActivity)getActivity()).searchByTitle(searchBar.getText().toString());
+        ((MainActivity) getActivity()).searchByTitle(searchBar.getText().toString());
         setAdapter();
     }
+
+
 }

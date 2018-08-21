@@ -8,22 +8,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.gyuhwan.android.blockchain.R;
-import com.gyuhwan.android.blockchain.dataSchema.UserData;
-import com.gyuhwan.android.blockchain.dataSchema.transaction;
-import com.gyuhwan.android.blockchain.viewHolder.sellerHolder;
-import com.gyuhwan.android.blockchain.viewHolder.transactionHolder;
+import com.gyuhwan.android.blockchain.dataSchema.Transaction;
+import com.gyuhwan.android.blockchain.viewHolder.TransactionHolder;
 
 import java.util.ArrayList;
 
-public class transcactionAdapter extends RecyclerView.Adapter<transactionHolder> {
+public class TranscactionAdapter extends RecyclerView.Adapter<TransactionHolder> {
 
     Context context;
-    ArrayList<transaction> userList;
+    ArrayList<Transaction> userList;
 
 
-    public transcactionAdapter(Context context) {
+    public TranscactionAdapter(Context context) {
         this.context = context;
-        userList=new ArrayList<transaction>() ;
+        userList=new ArrayList<Transaction>() ;
     }
     public void clear(){
         userList.clear();
@@ -32,19 +30,19 @@ public class transcactionAdapter extends RecyclerView.Adapter<transactionHolder>
 
     @NonNull
     @Override
-    public transactionHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public TransactionHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(context).inflate(R.layout.transaction_holder,parent,false);
-        transactionHolder holder=new transactionHolder(view,context);
+        TransactionHolder holder=new TransactionHolder(view,context);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull transactionHolder holder, int position) {
-        transaction posUser = userList.get(position);
+    public void onBindViewHolder(@NonNull TransactionHolder holder, int position) {
+        Transaction posUser = userList.get(position);
         holder.setData(String.valueOf(position+1),posUser.getFrom(),posUser.getTo(),String.valueOf(posUser.getPrice()));
     }
 
-    public void addItem(transaction thing){
+    public void addItem(Transaction thing){
         userList.add(thing);
         notifyDataSetChanged();
 

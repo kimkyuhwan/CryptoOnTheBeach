@@ -2,6 +2,7 @@ package com.gyuhwan.android.blockchain.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -49,6 +50,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemHolder> {
             it.putExtra("item_thing",posItem.getId());
             context.startActivity(it);
         });
+        if(posItem.getStatus()==1){
+            holder.itemView.setBackgroundResource(R.drawable.textlines);
+        }
     }
 
     public void addItem(ItemThing thing){
