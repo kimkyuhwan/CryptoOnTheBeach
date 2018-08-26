@@ -16,7 +16,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface ApiService {
-    public static final String URL = "http://timetotogether.us-east-1.elasticbeanstalk.com/";
+    public static final String URL = "http://togethertime-env.pr5tzjsask.ap-northeast-2.elasticbeanstalk.com/";
     @POST("addThing/")
     Call<ResponseBody> addThing(@Body RequestBody body);
     //title, category, seller_id, uuid, file
@@ -60,7 +60,7 @@ public interface ApiService {
     @POST("requestTrade/")
     Call<Code> requestTrade(@Body RequestBody body);
 
-    @POST("acceptTrade/")
+    @POST("acceptTrade/")   
     Call<Code> acceptTrade(@Body RequestBody body);
 
 }

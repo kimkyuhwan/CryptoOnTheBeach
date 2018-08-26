@@ -79,9 +79,9 @@ public class MApplication extends Application {
             result="구매자명으로 ";
         }
         else if(keyword.equals("seller_id")){
-            result="판매자명으로 '";
+            result="판매자명으로 ";
         }
-        result+=value+"'를 검색한 결과 ";
+        result+="'"+value+"'를 검색한 결과 ";
         result+=String.valueOf(cnt)+"건";
         return result;
     }
