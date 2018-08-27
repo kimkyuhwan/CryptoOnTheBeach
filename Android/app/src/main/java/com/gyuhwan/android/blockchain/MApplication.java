@@ -89,7 +89,7 @@ public class MApplication extends Application {
     public void onCreate() {
         super.onCreate();
         appInstance = this;
-        Log.w("DEBUGYU", SharedPreferenceBase.getKeyStoreSharedPreference("keystore").getAddress());
+      //  Log.w("DEBUGYU", SharedPreferenceBase.getKeyStoreSharedPreference("keystore").getAddress());
     }
 
 }

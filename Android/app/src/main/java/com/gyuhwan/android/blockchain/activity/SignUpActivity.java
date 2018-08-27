@@ -113,7 +113,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 inputPassword.setText("");
                             }
                             else if(result.equals("OK")){
-                                getEthereumAccount();
+                                //getEthereumAccount();
                                 Toast.makeText(getApplicationContext(),"회원가입 되었습니다",Toast.LENGTH_LONG).show();
                                 Intent it=new Intent(SignUpActivity.this,SignInActivity.class);
                                 startActivity(it);

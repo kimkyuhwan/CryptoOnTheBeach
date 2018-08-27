@@ -60,7 +60,7 @@ public interface ApiService {
     @POST("requestTrade/")
     Call<Code> requestTrade(@Body RequestBody body);
 
-    @POST("acceptTrade/")   
+    @POST("acceptTrade/")
     Call<Code> acceptTrade(@Body RequestBody body);
 
 }

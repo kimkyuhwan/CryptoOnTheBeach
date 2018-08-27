@@ -141,8 +141,9 @@ public class AddItemActivity extends AppCompatActivity {
 
         // Block
 
+        /*
         UserData userData = SharedPreferenceBase.getUserDataSharedPreference("user");
-        Keystore temp = SharedPreferenceBase.getKeyStoreSharedPreference(userData.getEmail());
+       // Keystore temp = SharedPreferenceBase.getKeyStoreSharedPreference(userData.getEmail());
         String uuid = inputUUID.getText().toString();
         Gson gson = new Gson();
         String jsonStr = gson.toJson(temp);
@@ -168,7 +169,7 @@ public class AddItemActivity extends AppCompatActivity {
                 Log.d("DEBUGYU", "Fail");
                 Log.w("DEBUGYU", t.getLocalizedMessage());
             }
-        });
+        });*/
     }
 
     @OnClick({R.id.itemImageBg, R.id.itemImgBtn, R.id.uuidLoadBtn, R.id.addItemBtn})
