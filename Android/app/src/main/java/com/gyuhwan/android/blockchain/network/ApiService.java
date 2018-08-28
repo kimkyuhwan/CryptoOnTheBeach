@@ -3,6 +3,7 @@ package com.gyuhwan.android.blockchain.network;
 import com.gyuhwan.android.blockchain.dataSchema.BestSeller;
 import com.gyuhwan.android.blockchain.dataSchema.BuyerResult;
 import com.gyuhwan.android.blockchain.dataSchema.Code;
+import com.gyuhwan.android.blockchain.dataSchema.DummyItemThing;
 import com.gyuhwan.android.blockchain.dataSchema.ItemSearchResult;
 import com.gyuhwan.android.blockchain.dataSchema.ItemThing;
 import com.gyuhwan.android.blockchain.dataSchema.User;
@@ -22,7 +23,7 @@ public interface ApiService {
     //title, category, seller_id, uuid, file
 
     @GET("getThing")
-    Call<ItemThing> getThing(@Query("thingId") int thing_id);
+    Call<DummyItemThing> getThing(@Query("thingId") int thing_id);
     // thingId
 
     @GET("search")

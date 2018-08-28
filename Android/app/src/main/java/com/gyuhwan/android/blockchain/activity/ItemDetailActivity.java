@@ -18,7 +18,10 @@ import com.gyuhwan.android.blockchain.adapter.TranscactionAdapter;
 import com.gyuhwan.android.blockchain.dataSchema.Buyer;
 import com.gyuhwan.android.blockchain.dataSchema.BuyerResult;
 import com.gyuhwan.android.blockchain.dataSchema.Code;
+import com.gyuhwan.android.blockchain.dataSchema.DummyItemThing;
+import com.gyuhwan.android.blockchain.dataSchema.DummyTranscaction;
 import com.gyuhwan.android.blockchain.dataSchema.ItemThing;
+import com.gyuhwan.android.blockchain.dataSchema.Thing;
 import com.gyuhwan.android.blockchain.dataSchema.Transaction;
 import com.gyuhwan.android.blockchain.dataSchema.TranscationData;
 import com.gyuhwan.android.blockchain.util.SharedPreferenceBase;
@@ -65,7 +68,7 @@ public class ItemDetailActivity extends AppCompatActivity {
         int idx = posIntent.getIntExtra("item_thing", -1);
         Log.d("DEBUGYU", String.valueOf(idx));
         getItemInfo(idx);
-        getTransaction();
+        //getTransaction();
     }
 
     void getTransaction() {
@@ -93,18 +96,13 @@ public class ItemDetailActivity extends AppCompatActivity {
         });
     }
 
-    void setAdapter(List<Transaction> result) {
+    void setAdapter(List<DummyTranscaction> result) {
         adapter = new TranscactionAdapter(this);
-        Transaction transaction = new Transaction();
-        transaction.setFrom("aaa");
-        transaction.setTo("bbb");
-        transaction.setPrice(200000);
-        adapter.addItem(transaction);
 
         if (result != null) {
             Log.w("DEBUGYU", "R: " + result.size());
             for (int i = 0; i < result.size(); i++) {
-                Transaction temp = result.get(i);
+                DummyTranscaction temp = result.get(i);
                 adapter.addItem(temp);
 
             }
@@ -118,12 +116,12 @@ public class ItemDetailActivity extends AppCompatActivity {
 
     public void getItemInfo(int idx) {
         MApplication.getInstance().getApiService().getThing(idx).
-                enqueue(new Callback<ItemThing>() {
+                enqueue(new Callback<DummyItemThing>() {
                     @Override
-                    public void onResponse(Call<ItemThing> call, Response<ItemThing> response) {
+                    public void onResponse(Call<DummyItemThing> call, Response<DummyItemThing> response) {
                         Log.w("DEBUGYU", "SUCCESSS : " + call.request().url().toString());
                         if (response.isSuccessful()) {
-                            ItemThing posItem = response.body();
+                            Thing posItem = response.body().getThing();
                             String str = posItem.getPicDir();//
                             if (str != null) {
                                 Log.w("DEBUGYU", posItem.getPicDir());
@@ -152,12 +150,13 @@ public class ItemDetailActivity extends AppCompatActivity {
                             else{
                                 tradeBtn.setText("구매하기");
                             }
+                            setAdapter(response.body().getTrans());
 
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<ItemThing> call, Throwable t) {
+                    public void onFailure(Call<DummyItemThing> call, Throwable t) {
                         Log.w("DEBUGYU", "FAIL : " + call.request().url().toString());
                         Log.w("DEBUGYU", "Log : " + t.getMessage());
                     }

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.gyuhwan.android.blockchain.R;
+import com.gyuhwan.android.blockchain.dataSchema.DummyTranscaction;
 import com.gyuhwan.android.blockchain.dataSchema.Transaction;
 import com.gyuhwan.android.blockchain.viewHolder.TransactionHolder;
 
@@ -16,12 +17,12 @@ import java.util.ArrayList;
 public class TranscactionAdapter extends RecyclerView.Adapter<TransactionHolder> {
 
     Context context;
-    ArrayList<Transaction> userList;
+    ArrayList<DummyTranscaction> userList;
 
 
     public TranscactionAdapter(Context context) {
         this.context = context;
-        userList=new ArrayList<Transaction>() ;
+        userList=new ArrayList<DummyTranscaction>() ;
     }
     public void clear(){
         userList.clear();
@@ -38,11 +39,11 @@ public class TranscactionAdapter extends RecyclerView.Adapter<TransactionHolder>
 
     @Override
     public void onBindViewHolder(@NonNull TransactionHolder holder, int position) {
-        Transaction posUser = userList.get(position);
-        holder.setData(String.valueOf(position+1),posUser.getFrom(),posUser.getTo(),String.valueOf(posUser.getPrice()));
+        DummyTranscaction posUser = userList.get(position);
+        holder.setData(String.valueOf(position+1),posUser.getFrom(),posUser.getTo(),String.valueOf(posUser.getGas()));
     }
 
-    public void addItem(Transaction thing){
+    public void addItem(DummyTranscaction thing){
         userList.add(thing);
         notifyDataSetChanged();
 

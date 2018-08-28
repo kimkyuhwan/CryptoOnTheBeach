@@ -77,6 +77,7 @@ public class HomeFragment extends Fragment {
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 if(i== EditorInfo.IME_ACTION_SEARCH){
                     ((MainActivity)getActivity()).searchByTitle(searchBar.getText().toString());
+
                 }
                 return false;
             }

@@ -94,7 +94,7 @@ public class SignUpActivity extends AppCompatActivity {
                 .addFormDataPart("email", inputEmail.getText().toString())
                 .addFormDataPart("password", inputPassword.getText().toString())
                 .addFormDataPart("username", inputName.getText().toString())
-                .addFormDataPart("etheraddress", inputEthAddress.getText().toString())
+                .addFormDataPart("etherAddress", inputEthAddress.getText().toString())
                 .build();
         MApplication.getInstance().getApiService().addUser(requestBody).
                 enqueue(new Callback<Code>() {
