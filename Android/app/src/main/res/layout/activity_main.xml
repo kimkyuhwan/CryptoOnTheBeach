@@ -12,7 +12,8 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="560dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="8"
         android:id="@+id/fragment_container"
         />
 
@@ -23,8 +24,9 @@
         android:background="#e8e8e8"
         />
     <LinearLayout
+        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         >
 

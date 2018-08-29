@@ -33,6 +33,7 @@ import retrofit2.Response;
 public class BuyerSelectActivity extends Activity {
 
     int item_id=0;
+    int seller_id=0;
     RecyclerView buyerList;
     BuyerSelectAdapter adapter;
     @Override
@@ -41,6 +42,8 @@ public class BuyerSelectActivity extends Activity {
         WindowManager.LayoutParams lpWindow = new WindowManager.LayoutParams();
         lpWindow.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
         lpWindow.dimAmount = 0.8f;
+        seller_id=SharedPreferenceBase.getUserDataSharedPreference("user").getId();
+        Log.d("DEBUGYU","seller id : "+seller_id);
         getWindow().setAttributes(lpWindow);
         setContentView(R.layout.activity_seller_select_dialog);
         Intent it=getIntent();
@@ -81,6 +84,7 @@ public class BuyerSelectActivity extends Activity {
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("itemId", String.valueOf(item_id))
                 .addFormDataPart("buyerId", String.valueOf(buyerId))
+                .addFormDataPart("sellerId",String.valueOf(seller_id))
                 .build();
         MApplication.getInstance().getApiService().acceptTrade(requestBody).enqueue(new Callback<Code>() {
             @Override

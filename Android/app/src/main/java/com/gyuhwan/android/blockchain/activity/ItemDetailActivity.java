@@ -254,6 +254,10 @@ public class ItemDetailActivity extends AppCompatActivity {
                                     Toast.makeText(getApplicationContext(),"구매 신청 되었습니다",Toast.LENGTH_LONG).show();
                                     finish();
                                 }
+                                else if(result.equals("ERROR")){
+                                    Toast.makeText(getApplicationContext(),"구매 에러",Toast.LENGTH_LONG).show();
+                                    finish();
+                                }
 
                             }
                             else{
